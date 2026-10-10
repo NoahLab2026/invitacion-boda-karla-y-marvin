@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Karla y Marvin//Nuestra boda//ES
+BEGIN:VEVENT
+UID:boda-karla-marvin-20261219
+DTSTAMP:20261010T015500Z
+DTSTART:20261219T223000Z
+DTEND:20261220T044500Z
+SUMMARY:Boda de Karla Monge y Marvin Reyes
+DESCRIPTION:Ceremonia 4:45 p. m. Vestimenta formal. No olvides tu abrigo. Solo para adultos.
+END:VEVENT
+END:VCALENDAR
