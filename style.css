@@ -5,3 +5,7 @@ html{scroll-snap-type:y mandatory;scroll-padding-top:0;scroll-padding-bottom:0}
 .itinerary{scroll-snap-align:center;scroll-snap-stop:always;margin-top:35px;margin-bottom:35px}
 
 @media(prefers-reduced-motion:reduce){html{scroll-snap-type:y proximity}}
+
+/* Give the opening photo sheet its own full viewport. */
+.opening-sheet{min-height:100svh;min-height:100dvh;display:grid;place-items:center;scroll-snap-align:start;scroll-snap-stop:always}
+.opening-sheet>.art-panel{margin:0;scroll-snap-align:none}
