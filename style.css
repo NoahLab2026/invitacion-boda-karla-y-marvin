@@ -17,3 +17,7 @@ main{position:fixed;inset:0 0 auto;height:var(--screen-height,100svh);overflow-y
 .art-panel{width:min(100%,660px,calc((var(--screen-height,100svh) - 40px)*var(--ratio,.666667)))}
 .opening-sheet{height:var(--screen-height,100svh);min-height:0;padding:20px 0;overflow:hidden}
 @media(prefers-reduced-motion:reduce){main{scroll-behavior:auto;scroll-snap-type:y proximity}}
+
+/* Each sheet occupies a whole visible screen, so neighboring artwork stays out of view. */
+.invitation-sheet,.opening-sheet{height:var(--screen-height,100svh);min-height:0;display:grid;place-items:center;padding:20px 0;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
+.invitation-sheet>.art-panel,.opening-sheet>.art-panel{margin:0;scroll-snap-align:none}
