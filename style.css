@@ -9,3 +9,11 @@ html{scroll-snap-type:y mandatory;scroll-padding-top:0;scroll-padding-bottom:0}
 /* Give the opening photo sheet its own full viewport. */
 .opening-sheet{min-height:100svh;min-height:100dvh;display:grid;place-items:center;scroll-snap-align:start;scroll-snap-stop:always}
 .opening-sheet>.art-panel{margin:0;scroll-snap-align:none}
+
+/* Use the visible phone viewport, including Safari's changing toolbars. */
+html{scroll-snap-type:none}
+body{overflow:hidden}
+main{position:fixed;inset:0 0 auto;height:var(--screen-height,100svh);overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
+.art-panel{width:min(100%,660px,calc((var(--screen-height,100svh) - 40px)*var(--ratio,.666667)))}
+.opening-sheet{height:var(--screen-height,100svh);min-height:0;padding:20px 0;overflow:hidden}
+@media(prefers-reduced-motion:reduce){main{scroll-behavior:auto;scroll-snap-type:y proximity}}
