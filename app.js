@@ -52,3 +52,13 @@ if(!reducedMotion.matches&&'IntersectionObserver' in window){
  const reveal=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');reveal.unobserve(entry.target);}});},{threshold:.12});
  main.querySelectorAll('.art-panel').forEach(panel=>reveal.observe(panel));
 }
+
+// Links created by the couple's panel carry only this invitation's public copy.
+try {
+ const payload=new URLSearchParams(location.hash.slice(1)).get('invitacion');
+ if(payload&&payload.length<=14000){
+  const encoded=payload.replaceAll('-','+').replaceAll('_','/');
+  const data=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(encoded),c=>c.charCodeAt(0))));
+  if(Number.isInteger(data.spaces)&&data.spaces>=1&&data.spaces<=50&&typeof data.guestName==='string'&&data.guestName.length<=160&&typeof data.message==='string'&&data.message.length<=1500)applyInvitationData(data);
+ }
+}catch(error){console.warn('El enlace personalizado no es válido; se muestra la invitación general.');}
