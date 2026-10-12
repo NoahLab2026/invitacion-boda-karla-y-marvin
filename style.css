@@ -125,3 +125,12 @@ main{position:fixed;inset:0 0 auto;height:var(--screen-height,100svh);overflow-y
 #venue .eyebrow{top:9%}#venue h2{top:16%;font-size:11cqw}#venue .gold-rule{top:35%;left:23%;width:54%}#venue h3{top:42%;font-size:8cqw}#venue .event-times{top:57%}#venue .sheet-copy{top:76%}#venue .elegant-button{top:86%;left:28%;width:44%}
 #gifts .eyebrow{top:13%}#gifts h2{top:22%}#gifts .gold-rule{top:34%;left:23%;width:54%}#gifts .gift-envelope{top:43%;left:35.5%;width:29%}#gifts .sheet-copy:nth-of-type(2){top:62%}#gifts .sheet-copy:nth-of-type(3){top:69%}#gifts .script-note{top:81%}
 #rsvp .eyebrow{top:8%}#rsvp h2{top:14%}#rsvp .gold-rule{top:34%;left:23%;width:54%}#rsvp #reservation-copy{top:40%;font-size:4.2cqw;line-height:1.3}#rsvp .reserved-spaces{top:62%}#rsvp .elegant-button{top:78%;left:20%;width:60%;font-size:3.3cqw}#rsvp .letter-button{top:88%;padding:0;gap:1cqw;font-size:3.5cqw}
+.ceremony-time{position:absolute;left:32%;top:51.1%;width:36%;height:4%;display:grid;place-items:center;background:#f8f6ef url('paper-v2.webp') center/300px;font-family:InvitationSerif,Georgia,serif;font-size:4.6cqw;letter-spacing:.5cqw;color:#606b50}
+.entrance{transition:opacity 1.7s ease,visibility 1.7s ease}
+.entrance-art{transition:transform 2.5s ease,filter 2.5s ease}
+.revealing .engagement-card{animation-duration:2.8s}
+.revealing .engagement-caption{animation-delay:2.5s}
+.revealing .intro-button{animation-delay:2.9s}
+.leaving,.leaving .engagement-card{animation-duration:1.8s}
+main{touch-action:pan-x pinch-zoom;scroll-behavior:auto}
+@media(prefers-reduced-motion:reduce){.entrance,.entrance-art{transition:none}}
