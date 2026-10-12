@@ -269,3 +269,7 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 .engagement-card{justify-content:center}.engagement-caption{margin-top:16px}
 #details .sheet-content{padding:16cqw 8cqw 18cqw}#details h2{margin-bottom:4cqw}#details .sheet-copy{margin-top:4cqw}
 #itinerary .sheet-content{padding:7cqw 8cqw 12cqw}#itinerary h2{font-size:10cqw}.timeline-list{gap:1.5cqw}.timeline-list li{min-height:12cqw}.timeline-icon{height:10.8cqw;mix-blend-mode:multiply}
+/* Venue additions flow vertically instead of sharing the old fixed positions. */
+#venue .sheet-content{padding:10cqw 9cqw 13cqw;justify-content:flex-start}
+#venue .sheet-content>*{position:relative;top:auto;left:auto;width:auto;flex-shrink:0}
+#venue .eyebrow{font-size:2.8cqw;margin:0 0 2cqw}#venue h2{font-size:9cqw;margin:0 0 2cqw}#venue h3{font-size:6cqw;margin:0 0 3cqw}#venue .gold-rule{width:58%;font-size:3cqw;margin:1cqw auto 3cqw}#venue .event-times{width:100%;margin:0 0 2cqw}#venue .event-times span{font-size:3.2cqw;min-height:6cqw}#venue .event-times strong{font-size:8cqw;margin-top:1cqw}#venue .event-times small{font-size:3cqw}#venue .sheet-copy{font-size:3.4cqw;margin:1cqw 0;line-height:1.45}#venue .elegant-button{width:auto;min-height:8cqw;margin:2cqw 0 0;font-size:3cqw;padding:1cqw 5cqw}.croquis-button img{width:6cqw;height:6cqw}
