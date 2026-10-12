@@ -285,3 +285,84 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 .engagement-card{background:#f8f5ed url('floral-paper-v3.webp') center 30%/100% 300%}.engagement-card>.flower-corner{opacity:1}.engagement-frame img{will-change:mask-image;filter:none}
 .revealing .engagement-caption{animation-delay:9.3s}.revealing .intro-button{animation-delay:10s}
 @keyframes photoReframeMist{0%,100%{opacity:1}40%{opacity:.85}}
+
+/* Review version: direct opening, continuous reading and clear text areas. */
+.entrance{transition:opacity 1s ease,visibility 1s ease}
+.opening .envelope-insert{transform:translateY(-12%)}
+.envelope-insert{transition:transform 1.25s cubic-bezier(.2,.65,.2,1) .45s}
+.envelope-flap{transition:transform 1.1s cubic-bezier(.25,.5,.25,1) .15s}
+.original-envelope-image{transition:opacity .8s ease .1s}
+.engagement-intro{position:relative;inset:auto;height:auto;min-height:0;z-index:auto;display:block;padding:0;overflow:hidden;perspective:none}
+.engagement-card{width:100%;height:150cqw;max-height:none;padding:20cqw 10cqw 15cqw;border:0;box-shadow:none;gap:2cqw;justify-content:center;background:transparent}
+.engagement-card:before{display:none}
+.intro-kicker{font-size:2.7cqw;letter-spacing:.35cqw;margin:0;max-width:68%;line-height:1.5}
+.intro-names{font-size:10cqw;line-height:1.15;margin:0;max-width:76%;text-align:center}
+.engagement-frame{height:75cqw;width:80cqw;flex-shrink:0;transition:height 2.8s cubic-bezier(.2,.65,.3,1)}
+.engagement-frame img{height:100%;max-width:100%;width:auto;object-fit:contain}
+.photo-settled .engagement-frame{height:49cqw;width:80cqw}
+.photo-settled .engagement-frame img{object-fit:cover;object-position:center 68%}
+.engagement-caption{font-size:7cqw;line-height:1.2;max-width:65%;margin:2cqw 0 0;text-align:center}
+.intro-button{font:3.1cqw InvitationSerif,Georgia;color:#667153;background:transparent;border:0;border-radius:0;box-shadow:none;padding:2cqw 4cqw;margin:1cqw 0;cursor:pointer;letter-spacing:.3cqw}
+.revealing .engagement-card{animation:directPaperFade 1.1s ease both}
+.revealing .intro-kicker,.revealing .intro-names{animation:letterWords 1.5s ease both;animation-delay:.4s}
+.revealing .engagement-caption{animation:letterWords 1.4s ease both;animation-delay:8.8s}
+.revealing .intro-button{animation:letterWords 1s ease both;animation-delay:.6s}
+@keyframes directPaperFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.flower-corner{width:31%;height:25%;pointer-events:none;z-index:1;opacity:.95}
+.flower-corner.top-left,.flower-corner.top-right{top:-3%}.flower-corner.bottom-left,.flower-corner.bottom-right{bottom:-3%}
+.flower-corner:before{animation:bouquetBreathe 6s ease-in-out infinite;transform-origin:50% 75%}
+.flower-corner.bottom-right:before{animation-delay:-3s}
+@keyframes bouquetBreathe{0%,100%{transform:translate(0,0) rotate(-1.6deg)}50%{transform:translate(4px,-6px) rotate(1.6deg)}}
+/* Content stays inside a central readable region, outside both corner bouquets. */
+.animated-sheet .sheet-content{padding-left:13cqw;padding-right:13cqw}
+.formal-cover .opening-copy{top:15%;left:17%;width:66%;font-size:4cqw}
+.formal-cover .cover-celebration{top:30%;left:17%;width:66%;font-size:11cqw}
+.formal-cover .gold-rule{top:40%}.formal-cover h1{top:46%;left:17%;width:66%;font-size:12cqw;gap:.7cqw}
+.formal-cover .cover-full-names{top:70%;left:15%;width:70%;font-size:2.8cqw}
+.formal-cover .cover-date{top:77%;left:17%;width:66%;font-size:4.2cqw}
+.formal-cover .cover-time{top:82%;left:17%;width:66%;font-size:3.5cqw}
+#story blockquote{font-size:6.1cqw;line-height:1.5}.adults-copy{font-size:4.8cqw;line-height:1.7}
+#details .sheet-content{padding:21cqw 13cqw 18cqw}#details h2{font-size:10.5cqw}
+#itinerary .sheet-content{padding:20cqw 10cqw 13cqw}#itinerary h2{font-size:9cqw}.timeline-list{gap:1.1cqw}.timeline-list li{min-height:10.8cqw;grid-template-columns:16cqw 22cqw 1fr;font-size:3.8cqw}.timeline-list time{font-size:4.2cqw}.timeline-icon{width:16cqw;height:10.4cqw}
+#venue .sheet-content{padding:20cqw 13cqw 13cqw}#venue h2{font-size:8.5cqw}#venue h3{font-size:5.8cqw}#venue .sheet-copy{font-size:3.4cqw}
+#dress .sheet-content{padding:24cqw 12cqw 20cqw}#dress h2{font-size:10cqw}.dress-figures{width:70cqw;height:73cqw;flex-shrink:0}
+#rsvp .sheet-content>*,#gifts .sheet-content>*{left:15%;width:70%}
+#rsvp .eyebrow{top:18%}#rsvp h2{top:25%;font-size:10.5cqw}#rsvp .gold-rule{top:42%;left:23%;width:54%}#rsvp #reservation-copy{top:47%;font-size:3.8cqw;line-height:1.4}#rsvp .reserved-spaces{top:68%}#rsvp .reserved-spaces strong{font-size:11cqw}#rsvp .reserved-spaces span{font-size:3.6cqw}#rsvp .elegant-button{top:80%;left:20%;width:60%;font-size:3cqw}#rsvp .letter-button{top:89%;left:41%;width:18%;min-height:8cqw}
+#gifts .eyebrow{top:22%}#gifts h2{top:29%;font-size:11cqw}#gifts .gold-rule{top:40%;left:23%;width:54%}#gifts .gift-envelope{top:48%;left:35.5%;width:29%}#gifts .sheet-copy:nth-of-type(2){top:66%;font-size:4cqw}#gifts .sheet-copy:nth-of-type(3){top:73%;font-size:3.9cqw}#gifts .script-note{top:85%;font-size:6cqw;left:20%;width:60%}
+.section-swipe{bottom:1cqw;font-size:2.7cqw;padding:1cqw 3cqw}.petal-field{position:fixed;inset:0;max-width:660px;margin:0 auto;overflow:hidden;pointer-events:none;z-index:1}
+.ambient-petal{position:absolute;left:var(--petal-x);top:-25px;width:10px;height:17px;opacity:0;pointer-events:none;animation:petalDrift var(--fall-time) linear infinite;animation-delay:var(--fall-delay);will-change:transform}
+.ambient-petal.petal{border-radius:80% 35% 75% 30%;background:linear-gradient(140deg,#fffdf4,#e3d7ba);box-shadow:0 0 3px #b2955430}
+.ambient-petal.leaf{border-radius:90% 0 90% 0;background:linear-gradient(135deg,#a1aa88,#727f59);width:11px;height:19px}
+@keyframes petalDrift{0%{opacity:0;transform:translate(0,-25px) rotate(0)}10%{opacity:.52}45%{transform:translate(var(--sway),45dvh) rotate(110deg)}90%{opacity:.45}100%{opacity:0;transform:translate(0,calc(100dvh + 35px)) rotate(var(--petal-turn))}}
+@media(prefers-reduced-motion:reduce){.petal-field{display:none}.flower-corner:before{animation:none}.revealing .engagement-card,.revealing .intro-kicker,.revealing .intro-names,.revealing .engagement-caption,.revealing .intro-button{animation:none}.engagement-frame{transition:none}}
+.engagement-card{padding:18cqw 10cqw 12cqw}.engagement-frame{height:66cqw}
+#details .sheet-content{padding:19cqw 13cqw 16cqw}#details h2{margin-bottom:3cqw}.date-number{font-size:28cqw}.date-month{margin:2cqw 0}.date-hour{margin-bottom:2cqw}#details .gold-rule{font-size:3cqw;margin:1cqw auto 3cqw}#details .countdown{height:14cqw}#details .sheet-copy{font-size:3.6cqw;margin-top:3cqw}#details .elegant-button{min-height:9cqw;margin-top:3cqw}
+.dress-figures{height:70cqw;background-size:88cqw 132cqw;background-position:-9cqw -38.7cqw}
+.flower-corner{width:28%;height:23%}
+.envelope-insert{height:86%}
+
+/* Reference IMG_9050: use the actual roses from our approved envelope. */
+.art-panel,.engagement-card{background:#f4efe4 url('paper-v2.webp') center/220px;background-blend-mode:multiply}
+.flower-corner{width:32%;height:28%;opacity:1}
+.flower-corner:before{background-image:url('sobre-v2.webp');background-size:312.5% 357.143%;mask-image:none;-webkit-mask-image:none}
+.flower-corner.top-left{top:0;left:0;rotate:none}
+.flower-corner.top-left:before{background-position:left top;mask-image:none;-webkit-mask-image:none;clip-path:polygon(0 0,100% 0,100% 25%,65% 38%,39% 43%,30% 65%,20% 100%,0 100%)}
+.flower-corner.bottom-right{bottom:0;right:0;rotate:none}
+.flower-corner.bottom-right:before{background-position:right bottom;mask-image:none;-webkit-mask-image:none;clip-path:polygon(100% 100%,0 100%,0 80%,25% 65%,47% 50%,68% 28%,80% 0,100% 0)}
+.petal-field{position:absolute;inset:0;max-width:none;height:100%;margin:0;overflow:hidden}
+.envelope-insert{background:#eee5d5 url('paper-v2.webp') center/180px;background-blend-mode:multiply;border-color:#bea575;box-shadow:0 0 0 3px #dfd0ae}
+.envelope-insert>.flower-corner{position:absolute;z-index:0;width:38%;height:31%}
+.envelope-insert>.flower-corner:before{background-size:263.158% 322.581%}
+.envelope-insert>img,.envelope-insert>span{position:relative;z-index:2}
+.personal-paper{background:#f1e9d9 url('paper-v2.webp') center/200px;background-blend-mode:multiply;isolation:isolate}
+.personal-paper>.flower-corner{position:absolute;z-index:0;animation:none}
+.personal-paper>:not(.flower-corner){position:relative;z-index:2}
+.flower-corner:before{mix-blend-mode:multiply}
+/* Transparent rose contours eliminate visible paper around the moving bouquets. */
+.flower-corner:before{background-image:url('rosas-esquinas-v1.png');clip-path:none!important;mask-image:none!important;-webkit-mask-image:none!important;mix-blend-mode:normal}
+/* Fit each complete bouquet inside its corner rather than cutting its stems. */
+.flower-corner.top-left:before{background-size:150% auto}
+.flower-corner.bottom-right:before{background-size:126% auto}
+.envelope-insert>.flower-corner{width:24%;height:45%}
+.envelope-insert>.flower-corner.top-left:before{background-size:150% auto}
+.envelope-insert>.flower-corner.bottom-right:before{background-size:126% auto}

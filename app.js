@@ -7,14 +7,15 @@ seal.addEventListener('click',()=>{
  if(opened)return;opened=true;music.volume=.65;
  music.play().catch(()=>document.addEventListener('pointerdown',()=>music.play().catch(()=>{}),{once:true}));
  seal.disabled=true;entrance.classList.add('opening');
- setTimeout(()=>{revealPhotoByZones();engagementIntro.hidden=false;engagementIntro.classList.add('revealing');},reducedMotion.matches?0:2600);
- setTimeout(()=>{entrance.classList.add('finished');continueInvitation.focus({preventScroll:true});},reducedMotion.matches?0:3100);
- setTimeout(()=>entrance.remove(),reducedMotion.matches?0:5100);
+ setTimeout(()=>{
+  main.hidden=false;fitVisibleScreen();document.body.classList.remove('closed');
+  window.scrollTo({top:0,behavior:'instant'});engagementIntro.classList.add('revealing');
+  revealPhotoByZones();entrance.classList.add('finished');animateScroll();
+ },reducedMotion.matches?0:1900);
+ setTimeout(()=>{entrance.remove();engagementIntro.setAttribute('tabindex','-1');engagementIntro.focus({preventScroll:true});},reducedMotion.matches?0:2900);
 });
 continueInvitation.addEventListener('click',()=>{
- continueInvitation.disabled=true;main.hidden=false;fitVisibleScreen();window.scrollTo({top:0,behavior:'instant'});
- main.classList.add('paper-emerging');engagementIntro.classList.add('leaving');
- setTimeout(()=>{engagementIntro.hidden=true;document.body.classList.remove('closed');document.getElementById('home').focus({preventScroll:true});animateScroll();},reducedMotion.matches?0:1800);
+ document.getElementById('home').scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
 });
 const wedding=new Date('2026-12-19T16:45:00-06:00').getTime();function countdown(){let n=Math.max(0,Math.floor((wedding-Date.now())/1000));const values=[Math.floor(n/86400),Math.floor(n/3600)%24,Math.floor(n/60)%60,n%60];['days','hours','minutes','seconds'].forEach((id,i)=>document.getElementById(id).textContent=String(values[i]).padStart(2,'0'));if(n===0)document.getElementById('countdown-caption').textContent='¡Llegó nuestro gran día!';}countdown();setInterval(countdown,1000);
 
@@ -97,20 +98,20 @@ function revealPhotoByZones(){
 // Each flower is a separate layer; movement follows natural page scrolling.
 const animatedPanels=[...main.querySelectorAll('.art-panel')];
 animatedPanels.forEach((panel,index)=>{
- for(const corner of ['top-left','bottom-right']){const flower=document.createElement('div');flower.className='flower-corner '+corner;flower.setAttribute('aria-hidden','true');panel.prepend(flower);}
+ for(const corner of panel.querySelector('.flower-corner')?[]:['top-left','bottom-right']){const flower=document.createElement('div');flower.className='flower-corner '+corner;flower.setAttribute('aria-hidden','true');panel.prepend(flower);}
  panel.querySelectorAll('h1 .name-word,h2:not(.sr-only),.cover-celebration,.closing-names,.date-number').forEach(title=>title.classList.add('scroll-title'));
- if(index<animatedPanels.length-1){const prompt=document.createElement('button');prompt.className='section-swipe';prompt.innerHTML='Desliza <span class="swipe-arrow" aria-hidden="true">↑</span>';prompt.setAttribute('aria-label','Desliza hacia arriba o toca para continuar');prompt.onclick=()=>animatedPanels[index+1].scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});panel.append(prompt);}
+ if(index>0&&index<animatedPanels.length-1){const prompt=document.createElement('button');prompt.className='section-swipe';prompt.innerHTML='Desliza <span class="swipe-arrow" aria-hidden="true">↑</span>';prompt.setAttribute('aria-label','Desliza hacia arriba o toca para continuar');prompt.onclick=()=>animatedPanels[index+1].scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});panel.append(prompt);}
 });
 let scrollTick=false;
 function animateScroll(){
  scrollTick=false;if(reducedMotion.matches)return;
  const viewport=window.visualViewport?.height||innerHeight;
- for(const panel of [...animatedPanels,engagementIntro.querySelector('.engagement-card')]){
+ for(const panel of animatedPanels){
   const r=panel.getBoundingClientRect();if(r.bottom<0||r.top>viewport)continue;
   const progress=Math.max(-1,Math.min(1,(viewport*.5-(r.top+r.height*.5))/viewport));
   panel.querySelectorAll('.flower-corner').forEach((flower,i)=>{const sign=i%2?-1:1;flower.style.transform=`translateY(${progress*22*sign}px) rotate(${progress*3.2*sign}deg)`;});
   const approach=Math.max(0,Math.min(1,(viewport-r.top)/(viewport*.6)));
-  const scale=1+.075*Math.sin(approach*Math.PI);
+  const scale=1+.055*Math.sin(approach*Math.PI);
   panel.querySelectorAll('.scroll-title').forEach(title=>title.style.setProperty('--title-scale',scale.toFixed(4)));
  }
 }
@@ -118,6 +119,10 @@ window.addEventListener('scroll',()=>{if(!scrollTick){scrollTick=true;requestAni
 const cropDialog=document.getElementById('venue-croquis');
 document.getElementById('open-croquis').addEventListener('click',()=>cropDialog.showModal());document.getElementById('close-croquis').addEventListener('click',()=>cropDialog.close());
 cropDialog.addEventListener('click',event=>{if(event.target===cropDialog){const r=cropDialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)cropDialog.close();}});
-let swipeStart;
-engagementIntro.addEventListener('touchstart',event=>{swipeStart=event.touches[0].clientY;},{passive:true});
-engagementIntro.addEventListener('touchend',event=>{if(swipeStart!==undefined&&swipeStart-event.changedTouches[0].clientY>55&&!continueInvitation.disabled)continueInvitation.click();swipeStart=undefined;},{passive:true});
+// Floating leaves and petals remain in the clear side margins.
+const petalField=document.createElement('div');petalField.className='petal-field';petalField.setAttribute('aria-hidden','true');
+[4,9,91,96,2,98].forEach((x,index)=>{
+ const petal=document.createElement('span');petal.className='ambient-petal '+(index%2?'leaf':'petal');
+ petal.style.cssText=`--petal-x:${x}%;--fall-time:${14+index*1.7}s;--fall-delay:${-index*3.1}s;--sway:${index%2?-15:15}px;--petal-turn:${index%2?-240:260}deg`;
+ petalField.append(petal);
+});engagementIntro.append(petalField);
