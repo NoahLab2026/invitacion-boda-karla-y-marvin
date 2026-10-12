@@ -119,3 +119,9 @@ main{position:fixed;inset:0 0 auto;height:var(--screen-height,100svh);overflow-y
 .formal-cover .cover-date{top:72%}
 .formal-cover .cover-time{top:78%}
 .formal-cover .elegant-button{top:85%;left:23%;width:54%;font-size:3cqw}
+/* Fixed proportions keep the live text inside each full invitation sheet. */
+#venue .sheet-content,#gifts .sheet-content,#rsvp .sheet-content{padding:0}
+#venue .sheet-content>*,#gifts .sheet-content>*,#rsvp .sheet-content>*{position:absolute;left:10%;width:80%;margin:0}
+#venue .eyebrow{top:9%}#venue h2{top:16%;font-size:11cqw}#venue .gold-rule{top:35%;left:23%;width:54%}#venue h3{top:42%;font-size:8cqw}#venue .event-times{top:57%}#venue .sheet-copy{top:76%}#venue .elegant-button{top:86%;left:28%;width:44%}
+#gifts .eyebrow{top:13%}#gifts h2{top:22%}#gifts .gold-rule{top:34%;left:23%;width:54%}#gifts .gift-envelope{top:43%;left:35.5%;width:29%}#gifts .sheet-copy:nth-of-type(2){top:62%}#gifts .sheet-copy:nth-of-type(3){top:69%}#gifts .script-note{top:81%}
+#rsvp .eyebrow{top:8%}#rsvp h2{top:14%}#rsvp .gold-rule{top:34%;left:23%;width:54%}#rsvp #reservation-copy{top:40%;font-size:4.2cqw;line-height:1.3}#rsvp .reserved-spaces{top:62%}#rsvp .elegant-button{top:78%;left:20%;width:60%;font-size:3.3cqw}#rsvp .letter-button{top:88%;padding:0;gap:1cqw;font-size:3.5cqw}
