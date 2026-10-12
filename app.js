@@ -14,7 +14,7 @@ seal.addEventListener('click',()=>{
 continueInvitation.addEventListener('click',()=>{
  continueInvitation.disabled=true;main.hidden=false;fitVisibleScreen();window.scrollTo({top:0,behavior:'instant'});
  main.classList.add('paper-emerging');engagementIntro.classList.add('leaving');
- setTimeout(()=>{engagementIntro.hidden=true;document.body.classList.remove('closed');document.getElementById('home').focus({preventScroll:true});},reducedMotion.matches?0:1800);
+ setTimeout(()=>{engagementIntro.hidden=true;document.body.classList.remove('closed');document.getElementById('home').focus({preventScroll:true});animateScroll();},reducedMotion.matches?0:1800);
 });
 const wedding=new Date('2026-12-19T16:45:00-06:00').getTime();function countdown(){let n=Math.max(0,Math.floor((wedding-Date.now())/1000));const values=[Math.floor(n/86400),Math.floor(n/3600)%24,Math.floor(n/60)%60,n%60];['days','hours','minutes','seconds'].forEach((id,i)=>document.getElementById(id).textContent=String(values[i]).padStart(2,'0'));if(n===0)document.getElementById('countdown-caption').textContent='¡Llegó nuestro gran día!';}countdown();setInterval(countdown,1000);
 
@@ -64,25 +64,62 @@ try {
 }catch(error){console.warn('El enlace personalizado no es válido; se muestra la invitación general.');}
 
 
-// Soft, overlapping openings reveal different areas at staggered times.
+// A low-resolution organic mist mask reveals the picture in irregular areas.
 function revealPhotoByZones(){
  const photo=engagementIntro.querySelector('.engagement-frame img');
- if(reducedMotion.matches)return;
- const zones=[{x:38,y:51,delay:0},{x:73,y:66,delay:.13},{x:20,y:23,delay:.27},{x:80,y:18,delay:.4},{x:17,y:85,delay:.51},{x:83,y:87,delay:.61}];
- const duration=6500;let start;
- photo.style.maskImage=photo.style.webkitMaskImage='linear-gradient(transparent,transparent)';
- photo.style.filter='blur(9px)';
+ if(reducedMotion.matches){engagementIntro.classList.add('photo-settled');return;}
+ const canvas=document.createElement('canvas');canvas.width=160;canvas.height=216;
+ const context=canvas.getContext('2d');
+ if(!context)return;
+ const pixels=context.createImageData(canvas.width,canvas.height),field=new Float32Array(canvas.width*canvas.height);
+ let seed=731;const random=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
+ const grid=Array.from({length:9*12},random),smooth=t=>t*t*(3-2*t);
+ for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){
+  const gx=x/(canvas.width-1)*7,gy=y/(canvas.height-1)*10,ix=Math.floor(gx),iy=Math.floor(gy),fx=smooth(gx-ix),fy=smooth(gy-iy);
+  const a=grid[iy*9+ix]*(1-fx)+grid[iy*9+ix+1]*fx,b=grid[(iy+1)*9+ix]*(1-fx)+grid[(iy+1)*9+ix+1]*fx;
+  field[y*canvas.width+x]=.72*(a*(1-fy)+b*fy)+.14*(Math.sin(x*.058+y*.035)+1);
+ }
+ const duration=11000;let start,last=-100;
+ photo.style.maskImage=photo.style.webkitMaskImage='linear-gradient(transparent,transparent)';photo.style.filter='blur(11px)';
+ function finish(){photo.style.removeProperty('mask-image');photo.style.removeProperty('-webkit-mask-image');photo.style.removeProperty('filter');setTimeout(()=>{if(!engagementIntro.hidden)engagementIntro.classList.add('photo-settled');},2000);}
  function frame(now){
   start??=now;const t=Math.min(1,(now-start)/duration);
-  if(t===1||reducedMotion.matches){photo.style.removeProperty('mask-image');photo.style.removeProperty('-webkit-mask-image');photo.style.removeProperty('filter');return;}
-  const bounds=photo.getBoundingClientRect(),reach=Math.hypot(bounds.width,bounds.height)*1.45;
-  const masks=zones.map(zone=>{
-   const p=Math.max(0,Math.min(1,(t-zone.delay)/(1-zone.delay))),eased=p*p*(3-2*p),radius=Math.max(.01,reach*eased);
-   return `radial-gradient(circle ${radius.toFixed(2)}px at ${zone.x}% ${zone.y}%,#000 0%,#000 38%,rgba(0,0,0,.65) 62%,transparent 100%)`;
-  }).join(',');
-  photo.style.maskImage=photo.style.webkitMaskImage=masks;
-  photo.style.filter=`blur(${(9*Math.pow(1-t,2)).toFixed(2)}px)`;
+  if(t===1||reducedMotion.matches){finish();return;}
+  if(now-last>75){
+   last=now;const threshold=t*1.55-.25;
+   for(let i=0;i<field.length;i++){const k=i*4;pixels.data[k]=pixels.data[k+1]=pixels.data[k+2]=255;pixels.data[k+3]=Math.round(Math.max(0,Math.min(1,(threshold-field[i])*3.3+.5))*255);}
+   context.putImageData(pixels,0,0);const mask='url("'+canvas.toDataURL('image/png')+'")';
+   photo.style.maskImage=photo.style.webkitMaskImage=mask;photo.style.filter=`blur(${(11*Math.pow(1-t,2)).toFixed(2)}px)`;
+  }
   requestAnimationFrame(frame);
  }
  requestAnimationFrame(frame);
 }
+
+// Each flower is a separate layer; movement follows natural page scrolling.
+const animatedPanels=[...main.querySelectorAll('.art-panel')];
+animatedPanels.forEach((panel,index)=>{
+ for(const corner of ['top-left','bottom-right']){const flower=document.createElement('div');flower.className='flower-corner '+corner;flower.setAttribute('aria-hidden','true');panel.prepend(flower);}
+ panel.querySelectorAll('h1 .name-word,h2:not(.sr-only),.cover-celebration,.closing-names,.date-number').forEach(title=>title.classList.add('scroll-title'));
+ if(index<animatedPanels.length-1){const prompt=document.createElement('button');prompt.className='section-swipe';prompt.innerHTML='Desliza <span class="swipe-arrow" aria-hidden="true">↑</span>';prompt.setAttribute('aria-label','Desliza hacia arriba o toca para continuar');prompt.onclick=()=>animatedPanels[index+1].scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});panel.append(prompt);}
+});
+let scrollTick=false;
+function animateScroll(){
+ scrollTick=false;if(reducedMotion.matches)return;
+ const viewport=window.visualViewport?.height||innerHeight;
+ for(const panel of [...animatedPanels,engagementIntro.querySelector('.engagement-card')]){
+  const r=panel.getBoundingClientRect();if(r.bottom<0||r.top>viewport)continue;
+  const progress=Math.max(-1,Math.min(1,(viewport*.5-(r.top+r.height*.5))/viewport));
+  panel.querySelectorAll('.flower-corner').forEach((flower,i)=>{const sign=i%2?-1:1;flower.style.transform=`translateY(${progress*22*sign}px) rotate(${progress*3.2*sign}deg)`;});
+  const approach=Math.max(0,Math.min(1,(viewport-r.top)/(viewport*.6)));
+  const scale=1+.075*Math.sin(approach*Math.PI);
+  panel.querySelectorAll('.scroll-title').forEach(title=>title.style.setProperty('--title-scale',scale.toFixed(4)));
+ }
+}
+window.addEventListener('scroll',()=>{if(!scrollTick){scrollTick=true;requestAnimationFrame(animateScroll);}},{passive:true});window.addEventListener('resize',animateScroll);
+const cropDialog=document.getElementById('venue-croquis');
+document.getElementById('open-croquis').addEventListener('click',()=>cropDialog.showModal());document.getElementById('close-croquis').addEventListener('click',()=>cropDialog.close());
+cropDialog.addEventListener('click',event=>{if(event.target===cropDialog){const r=cropDialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)cropDialog.close();}});
+let swipeStart;
+engagementIntro.addEventListener('touchstart',event=>{swipeStart=event.touches[0].clientY;},{passive:true});
+engagementIntro.addEventListener('touchend',event=>{if(swipeStart!==undefined&&swipeStart-event.changedTouches[0].clientY>55&&!continueInvitation.disabled)continueInvitation.click();swipeStart=undefined;},{passive:true});
