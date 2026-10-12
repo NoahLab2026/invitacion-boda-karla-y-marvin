@@ -14,13 +14,18 @@ seal.addEventListener('click',()=>{
 continueInvitation.addEventListener('click',()=>{
  continueInvitation.disabled=true;main.hidden=false;fitVisibleScreen();window.scrollTo({top:0,behavior:'instant'});
  main.classList.add('paper-emerging');engagementIntro.classList.add('leaving');
- setTimeout(()=>{engagementIntro.hidden=true;document.body.classList.remove('closed');document.querySelector('#home a').focus({preventScroll:true});},reducedMotion.matches?0:1800);
+ setTimeout(()=>{engagementIntro.hidden=true;document.body.classList.remove('closed');document.getElementById('home').focus({preventScroll:true});},reducedMotion.matches?0:1800);
 });
 const wedding=new Date('2026-12-19T16:45:00-06:00').getTime();function countdown(){let n=Math.max(0,Math.floor((wedding-Date.now())/1000));const values=[Math.floor(n/86400),Math.floor(n/3600)%24,Math.floor(n/60)%60,n%60];['days','hours','minutes','seconds'].forEach((id,i)=>document.getElementById(id).textContent=String(values[i]).padStart(2,'0'));if(n===0)document.getElementById('countdown-caption').textContent='¡Llegó nuestro gran día!';}countdown();setInterval(countdown,1000);
 
 
 const letter=document.getElementById('personal-letter'),letterTrigger=document.getElementById('open-letter');
-letterTrigger.addEventListener('click',()=>{if(!letter.open)letter.showModal();});
+let letterOpening=false;
+letterTrigger.addEventListener('click',()=>{
+ if(letter.open||letterOpening)return;letterOpening=true;letterTrigger.classList.add('letter-opening');
+ setTimeout(()=>{letter.showModal();letterOpening=false;},reducedMotion.matches?0:650);
+});
+letter.addEventListener('close',()=>letterTrigger.classList.remove('letter-opening'));
 document.getElementById('close-letter').addEventListener('click',()=>letter.close());
 letter.addEventListener('click',event=>{const r=letter.getBoundingClientRect();if(event.target===letter&&(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom))letter.close();});
 function applyInvitationData(data={}){
@@ -28,9 +33,9 @@ function applyInvitationData(data={}){
  const label=spaces===1?'espacio':'espacios';
  document.getElementById('reservation-copy').textContent=`Estamos muy felices de poder compartir este día contigo, por ser un evento íntimo y especial hemos reservado exclusivamente ${spaces} ${label} para ti.`;
  document.getElementById('reserved-count').textContent=spaces;
- document.getElementById('reserved-label').textContent=`${label} para ti`;
+ document.getElementById('reserved-label').textContent=`${label} reservado${spaces===1?'':'s'} para ti`;
  const guest=typeof data.guestName==='string'?data.guestName.trim():'';
- document.getElementById('letter-title').textContent=guest?`Para ${guest}`:'Un mensaje para ti';
+ document.getElementById('letter-title').textContent=guest?`Para ${guest}`:'Para ti';
  const message=typeof data.message==='string'&&data.message.trim()?data.message.trim():'Hay personas que hacen nuestra historia más bonita. Tú eres una de ellas y nos encantará tenerte cerca al comenzar esta nueva etapa.';
  document.getElementById('letter-message').textContent=message;
  const confirmation=`¡Hola! ${guest?`Soy ${guest}. `:''}Confirmo mi asistencia a la boda de Karla y Marvin. Tengo ${spaces} ${label} reservado${spaces===1?'':'s'}. 🤍`;
