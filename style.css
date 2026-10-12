@@ -211,16 +211,14 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 /* Clear Arabic digits, distinct from the invitation lettering. */
 #reserved-count,.space-number{font-family:Arial,Helvetica,sans-serif;font-variant-numeric:lining-nums tabular-nums;font-style:normal;font-weight:500;letter-spacing:0}
 
-/* Blend the complete engagement photo into the invitation paper. */
+/* Reveal the entire photograph from invisible softness to full clarity. */
 .engagement-card{border:0;box-shadow:none;padding:12px 14px 24px;background-color:#f8f5ed}
 .engagement-card:before{display:none}
-.engagement-frame{position:relative}
-.engagement-frame img{border:0;box-shadow:none;object-fit:contain;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 4%,#000 89%,transparent 100%),linear-gradient(to right,transparent 0%,#000 3%,#000 97%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,#000 4%,#000 89%,transparent 100%),linear-gradient(to right,transparent 0%,#000 3%,#000 97%,transparent 100%);-webkit-mask-composite:source-in;mask-composite:intersect}
-.revealing .engagement-card{animation:engagementPaperReveal 2.4s ease-out both}
-.revealing .engagement-frame img{animation:engagementPhotoReveal 2.6s ease-out both;animation-delay:.15s}
-@keyframes engagementPaperReveal{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
-@keyframes engagementPhotoReveal{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:blur(0)}}
-@media(prefers-reduced-motion:reduce){.revealing .engagement-card,.revealing .engagement-frame img{animation:none;filter:none}}
-/* Apply the fade to the photograph itself, without a letterbox area. */
-.engagement-frame{align-items:center}
-.engagement-frame img{height:auto;max-height:100%;width:auto;aspect-ratio:1062/1431}
+.engagement-frame{position:relative;align-items:center}
+.engagement-frame img{border:0;box-shadow:none;object-fit:contain;height:auto;max-height:100%;width:auto;aspect-ratio:1062/1431;-webkit-mask-image:none;mask-image:none}
+.revealing .engagement-card{animation:none}
+.revealing .engagement-frame img{animation:engagementPhotoReveal 5s cubic-bezier(.22,.45,.35,1) both;animation-delay:.3s;will-change:opacity,filter}
+.revealing .engagement-caption{animation-delay:4.2s}
+.revealing .intro-button{animation-delay:4.8s}
+@keyframes engagementPhotoReveal{0%{opacity:0;filter:blur(20px)}25%{opacity:.12;filter:blur(15px)}60%{opacity:.65;filter:blur(6px)}100%{opacity:1;filter:blur(0)}}
+@media(prefers-reduced-motion:reduce){.revealing .engagement-frame img,.revealing .engagement-caption,.revealing .intro-button{animation:none;filter:none;will-change:auto}}
