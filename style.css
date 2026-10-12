@@ -263,3 +263,9 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 @media(max-height:650px){.engagement-card{padding:15px 14px 20px;gap:6px}.intro-kicker{font-size:10px}.intro-names{font-size:32px}.engagement-caption{font-size:26px}.engagement-frame{height:55%}.photo-settled .engagement-frame{height:35%}.intro-button{padding:8px 13px}}
 @media(prefers-reduced-motion:reduce){.flower-corner,.scroll-title{transform:none!important;will-change:auto}.swipe-arrow{animation:none}.revealing .engagement-card,.revealing .intro-kicker,.revealing .intro-names,.photo-settled .engagement-frame img{animation:none!important}.engagement-frame{transition:none}}
 .engagement-frame img{mask-size:100% 100%;-webkit-mask-size:100% 100%;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat}
+/* Transparent original flowers keep the paper continuous during movement. */
+.flower-corner{background-image:url('flores-originales.png');background-size:contain;background-position:center!important;width:49%;height:20%;mask-image:none;-webkit-mask-image:none;transform-origin:center;opacity:.95}
+.flower-corner.top-left{top:1%;left:-7%;rotate:-32deg}.flower-corner.top-right{top:1%;right:-7%;rotate:32deg}.flower-corner.bottom-left{bottom:0;left:-8%;rotate:32deg}.flower-corner.bottom-right{bottom:0;right:-8%;rotate:-32deg}
+.engagement-card{justify-content:center}.engagement-caption{margin-top:16px}
+#details .sheet-content{padding:16cqw 8cqw 18cqw}#details h2{margin-bottom:4cqw}#details .sheet-copy{margin-top:4cqw}
+#itinerary .sheet-content{padding:7cqw 8cqw 12cqw}#itinerary h2{font-size:10cqw}.timeline-list{gap:1.5cqw}.timeline-list li{min-height:12cqw}.timeline-icon{height:10.8cqw;mix-blend-mode:multiply}
