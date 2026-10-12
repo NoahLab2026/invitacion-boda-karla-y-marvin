@@ -207,3 +207,6 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 @keyframes tapInvitation{0%,35%,100%{transform:translate(3px,3px);opacity:.7}45%,60%{transform:translate(0,0);opacity:1}}
 @media(max-width:380px){#letter-message{font-size:28px;line-height:1.5}}
 @media(prefers-reduced-motion:reduce){.mini-envelope,.tap-cue{animation:none}.mini-envelope:before{transition:none}}
+
+/* Clear Arabic digits, distinct from the invitation lettering. */
+#reserved-count,.space-number{font-family:Arial,Helvetica,sans-serif;font-variant-numeric:lining-nums tabular-nums;font-style:normal;font-weight:500;letter-spacing:0}

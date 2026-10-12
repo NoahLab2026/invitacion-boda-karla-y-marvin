@@ -31,7 +31,8 @@ letter.addEventListener('click',event=>{const r=letter.getBoundingClientRect();i
 function applyInvitationData(data={}){
  const spaces=Number.isInteger(Number(data.spaces))&&Number(data.spaces)>0?Number(data.spaces):1;
  const label=spaces===1?'espacio':'espacios';
- document.getElementById('reservation-copy').textContent=`Estamos muy felices de poder compartir este día contigo, por ser un evento íntimo y especial hemos reservado exclusivamente ${spaces} ${label} para ti.`;
+ const digit=document.createElement('span');digit.className='space-number';digit.textContent=spaces;
+ document.getElementById('reservation-copy').replaceChildren(document.createTextNode('Estamos muy felices de poder compartir este día contigo, por ser un evento íntimo y especial hemos reservado exclusivamente '),digit,document.createTextNode(` ${label} para ti.`));
  document.getElementById('reserved-count').textContent=spaces;
  document.getElementById('reserved-label').textContent=`${label} reservado${spaces===1?'':'s'} para ti`;
  const guest=typeof data.guestName==='string'?data.guestName.trim():'';
