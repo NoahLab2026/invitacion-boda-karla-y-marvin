@@ -134,3 +134,49 @@ main{position:fixed;inset:0 0 auto;height:var(--screen-height,100svh);overflow-y
 .leaving,.leaving .engagement-card{animation-duration:1.8s}
 main{touch-action:pan-x pinch-zoom;scroll-behavior:auto}
 @media(prefers-reduced-motion:reduce){.entrance,.entrance-art{transition:none}}
+
+/* One continuous invitation, with natural touch scrolling. */
+html{scroll-snap-type:none;scroll-behavior:smooth}
+body{overflow:auto}.closed{overflow:hidden}
+main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;background:#f8f5ed url('paper-v2.webp') center/300px;scroll-snap-type:none;touch-action:auto;overscroll-behavior:auto;box-shadow:0 12px 60px #665c3414}
+.invitation-sheet,.opening-sheet{display:contents;height:auto;min-height:0;padding:0;overflow:visible;scroll-snap-align:none}
+.art-panel{width:100%;max-width:660px;margin:0;scroll-snap-align:none;scroll-snap-stop:normal}
+.formal-cover .opening-copy{top:8%;left:12%;width:76%;font-size:4.3cqw;line-height:1.45}
+.formal-cover .cover-celebration{top:25%;font-size:12cqw}
+.formal-cover .gold-rule{top:37%}
+.formal-cover h1{top:44%;font-size:13cqw;gap:1cqw}
+.formal-cover h1 span{font-size:6cqw}
+.formal-cover .cover-full-names{top:71%;font-size:3cqw}
+.formal-cover .cover-date{top:78%;font-size:4.6cqw}
+.formal-cover .cover-time{top:83%;font-size:3.7cqw}
+.formal-cover .elegant-button{top:89%}
+.motion-ready .art-panel{opacity:0;transform:translateY(24px);transition:opacity 1.45s ease,transform 1.65s cubic-bezier(.18,.65,.25,1)}
+.motion-ready .art-panel.is-visible{opacity:1;transform:translateY(0)}
+.paper-emerging{animation:continuousPaper 1.8s cubic-bezier(.18,.65,.25,1) both}
+@keyframes continuousPaper{from{opacity:0;transform:translateY(100px)}to{opacity:1;transform:translateY(0)}}
+
+/* Real layered envelope: wax, hinged flap, card, then front pocket. */
+.real-envelope-scene{width:min(92vw,460px);height:min(var(--screen-height,100svh),850px);display:flex;flex-direction:column;align-items:center;justify-content:center;background:url('floral-paper-v3.webp') center bottom/100% 100% no-repeat;padding:30px 18px;perspective:1400px}
+.entrance{background:#f8f5ed;overflow:hidden;transition:opacity 1.8s ease,visibility 1.8s ease}
+.opening .real-envelope-scene{transform:none;filter:none}
+.envelope-heading{text-align:center;position:relative;z-index:1;margin-bottom:70px;color:#566248}
+.envelope-names{font-family:InvitationScript,cursive;font-size:clamp(42px,12vw,64px);line-height:1.15;margin:0 0 20px}
+.envelope-subtitle{font-family:InvitationSerif,Georgia,serif;font-size:19px;letter-spacing:6px;text-transform:uppercase;margin:0 0 18px}
+.envelope-date{font-size:12px;letter-spacing:3px;text-transform:uppercase;margin:0}
+.physical-envelope{width:96%;aspect-ratio:1.55;position:relative;isolation:isolate;perspective:1200px;filter:drop-shadow(0 15px 14px #504b342b)}
+.envelope-back,.envelope-pocket,.envelope-flap{position:absolute;inset:0;background-color:#829071;background-image:linear-gradient(#68765b18,#56644726),url('paper-v2.webp');background-blend-mode:multiply;box-shadow:inset 0 0 0 1px #5664474d;border-radius:3px}
+.envelope-back{z-index:0;background-color:#657357}
+.envelope-flap{z-index:4;clip-path:polygon(0 0,100% 0,50% 62%);transform-origin:50% 0;backface-visibility:visible;transition:transform 1.5s cubic-bezier(.25,.5,.25,1) .35s;background-color:#929e80}
+.envelope-pocket{z-index:3;clip-path:polygon(0 0,50% 60%,100% 0,100% 100%,0 100%);background-image:linear-gradient(33deg,transparent 49.7%,#4b593833 50%,transparent 50.3%),linear-gradient(-33deg,transparent 49.7%,#4b593833 50%,transparent 50.3%),url('paper-v2.webp')}
+.envelope-insert{position:absolute;z-index:2;left:10%;bottom:7%;width:80%;height:86%;padding:10px;background:#fff9ef;border:1px solid #c4ab70;box-shadow:0 0 0 4px #eee5d4;display:flex;align-items:center;gap:12px;flex-direction:column;overflow:hidden;transform:translateY(0);transition:transform 2.3s cubic-bezier(.2,.65,.2,1) 1.05s}
+.envelope-insert img{height:75%;width:100%;object-fit:contain}.envelope-insert span{font-family:InvitationScript,cursive;font-size:24px;color:#566248}
+.physical-envelope #seal{z-index:5;left:40%;top:43%;width:20%;height:auto;aspect-ratio:1;min-width:0;min-height:0;border:0;border-radius:50%;background:url('sello-v2.webp') center 48%/135% auto;box-shadow:0 3px 5px #3e331e4d;transition:transform .7s ease,opacity .7s ease;cursor:pointer}
+.envelope-instruction{font-family:InvitationSerif,Georgia,serif;font-style:italic;font-size:18px;letter-spacing:1px;margin-top:40px;text-align:center}
+.opening .envelope-flap{transform:rotateX(180deg);z-index:1}
+.opening .envelope-insert{transform:translateY(-105%)}
+.opening .physical-envelope #seal{opacity:0;transform:translateY(15px) scale(.7);pointer-events:none}
+.opening .envelope-heading,.opening .envelope-instruction{opacity:0;transition:opacity .8s ease}
+.revealing .engagement-card{animation-delay:0s;animation-duration:2.4s}
+.revealing .engagement-caption{animation-delay:1.1s}.revealing .intro-button{animation-delay:1.5s}
+@media(max-height:650px){.envelope-heading{margin-bottom:40px}.envelope-names{font-size:44px}.envelope-instruction{margin-top:25px}.real-envelope-scene{padding:20px 16px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.motion-ready .art-panel{opacity:1;transform:none;transition:none}.paper-emerging{animation:none}.envelope-flap,.envelope-insert,.physical-envelope #seal{transition:none}.entrance{transition:none}}
