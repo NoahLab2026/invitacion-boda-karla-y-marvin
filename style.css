@@ -273,3 +273,15 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 #venue .sheet-content{padding:10cqw 9cqw 13cqw;justify-content:flex-start}
 #venue .sheet-content>*{position:relative;top:auto;left:auto;width:auto;flex-shrink:0}
 #venue .eyebrow{font-size:2.8cqw;margin:0 0 2cqw}#venue h2{font-size:9cqw;margin:0 0 2cqw}#venue h3{font-size:6cqw;margin:0 0 3cqw}#venue .gold-rule{width:58%;font-size:3cqw;margin:1cqw auto 3cqw}#venue .event-times{width:100%;margin:0 0 2cqw}#venue .event-times span{font-size:3.2cqw;min-height:6cqw}#venue .event-times strong{font-size:8cqw;margin-top:1cqw}#venue .event-times small{font-size:3cqw}#venue .sheet-copy{font-size:3.4cqw;margin:1cqw 0;line-height:1.45}#venue .elegant-button{width:auto;min-height:8cqw;margin:2cqw 0 0;font-size:3cqw;padding:1cqw 5cqw}.croquis-button img{width:6cqw;height:6cqw}
+
+/* Restore the exact original corner bouquets, independently from the text. */
+.art-panel{background:#f8f5ed url('floral-paper-v3.webp') center 30%/100% 300%}
+.flower-corner{width:44%;height:40%;opacity:1;background:none!important;mask-image:none;-webkit-mask-image:none;rotate:none;transform-origin:center}
+.flower-corner:before{content:'';position:absolute;inset:0;background-image:url('floral-paper-v3.webp');background-size:227.273% 250%;background-repeat:no-repeat;pointer-events:none}
+.flower-corner.bottom-left{bottom:-1%;left:-1%}.flower-corner.bottom-left:before{background-position:left bottom;mask-image:radial-gradient(ellipse at 0% 100%,#000 35%,transparent 79%);-webkit-mask-image:radial-gradient(ellipse at 0% 100%,#000 35%,transparent 79%)}
+.flower-corner.bottom-right{bottom:-1%;right:-1%}.flower-corner.bottom-right:before{background-position:right bottom;mask-image:radial-gradient(ellipse at 100% 100%,#000 35%,transparent 79%);-webkit-mask-image:radial-gradient(ellipse at 100% 100%,#000 35%,transparent 79%)}
+.flower-corner.top-left{top:-1%;left:-1%;rotate:180deg}.flower-corner.top-left:before{background-position:right bottom;mask-image:radial-gradient(ellipse at 100% 100%,#000 35%,transparent 79%);-webkit-mask-image:radial-gradient(ellipse at 100% 100%,#000 35%,transparent 79%)}
+.flower-corner.top-right{top:-1%;right:-1%;rotate:180deg}.flower-corner.top-right:before{background-position:left bottom;mask-image:radial-gradient(ellipse at 0% 100%,#000 35%,transparent 79%);-webkit-mask-image:radial-gradient(ellipse at 0% 100%,#000 35%,transparent 79%)}
+.engagement-card{background:#f8f5ed url('floral-paper-v3.webp') center 30%/100% 300%}.engagement-card>.flower-corner{opacity:1}.engagement-frame img{will-change:mask-image;filter:none}
+.revealing .engagement-caption{animation-delay:9.3s}.revealing .intro-button{animation-delay:10s}
+@keyframes photoReframeMist{0%,100%{opacity:1}40%{opacity:.85}}

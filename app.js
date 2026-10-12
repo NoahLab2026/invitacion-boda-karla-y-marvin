@@ -64,32 +64,30 @@ try {
 }catch(error){console.warn('El enlace personalizado no es válido; se muestra la invitación general.');}
 
 
-// A low-resolution organic mist mask reveals the picture in irregular areas.
+// A central watercolor opening expands outward like the reference video.
 function revealPhotoByZones(){
  const photo=engagementIntro.querySelector('.engagement-frame img');
  if(reducedMotion.matches){engagementIntro.classList.add('photo-settled');return;}
- const canvas=document.createElement('canvas');canvas.width=160;canvas.height=216;
- const context=canvas.getContext('2d');
- if(!context)return;
- const pixels=context.createImageData(canvas.width,canvas.height),field=new Float32Array(canvas.width*canvas.height);
- let seed=731;const random=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};
- const grid=Array.from({length:9*12},random),smooth=t=>t*t*(3-2*t);
- for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){
-  const gx=x/(canvas.width-1)*7,gy=y/(canvas.height-1)*10,ix=Math.floor(gx),iy=Math.floor(gy),fx=smooth(gx-ix),fy=smooth(gy-iy);
-  const a=grid[iy*9+ix]*(1-fx)+grid[iy*9+ix+1]*fx,b=grid[(iy+1)*9+ix]*(1-fx)+grid[(iy+1)*9+ix+1]*fx;
-  field[y*canvas.width+x]=.72*(a*(1-fy)+b*fy)+.14*(Math.sin(x*.058+y*.035)+1);
- }
- const duration=11000;let start,last=-100;
- photo.style.maskImage=photo.style.webkitMaskImage='linear-gradient(transparent,transparent)';photo.style.filter='blur(11px)';
- function finish(){photo.style.removeProperty('mask-image');photo.style.removeProperty('-webkit-mask-image');photo.style.removeProperty('filter');setTimeout(()=>{if(!engagementIntro.hidden)engagementIntro.classList.add('photo-settled');},2000);}
+ const canvas=document.createElement('canvas');canvas.width=180;canvas.height=243;
+ const context=canvas.getContext('2d');if(!context)return;
+ const pixels=context.createImageData(canvas.width,canvas.height);
+ const duration=10000;let start,last=-100;
+ photo.style.maskImage=photo.style.webkitMaskImage='linear-gradient(transparent,transparent)';
+ photo.style.removeProperty('filter');
+ function finish(){photo.style.removeProperty('mask-image');photo.style.removeProperty('-webkit-mask-image');setTimeout(()=>{if(!engagementIntro.hidden)engagementIntro.classList.add('photo-settled');},2200);}
  function frame(now){
   start??=now;const t=Math.min(1,(now-start)/duration);
   if(t===1||reducedMotion.matches){finish();return;}
-  if(now-last>75){
-   last=now;const threshold=t*1.55-.25;
-   for(let i=0;i<field.length;i++){const k=i*4;pixels.data[k]=pixels.data[k+1]=pixels.data[k+2]=255;pixels.data[k+3]=Math.round(Math.max(0,Math.min(1,(threshold-field[i])*3.3+.5))*255);}
-   context.putImageData(pixels,0,0);const mask='url("'+canvas.toDataURL('image/png')+'")';
-   photo.style.maskImage=photo.style.webkitMaskImage=mask;photo.style.filter=`blur(${(11*Math.pow(1-t,2)).toFixed(2)}px)`;
+  if(now-last>70){
+   last=now;const p=t*t*(3-2*t),rx=.015+p*.93,ry=.025+p*.94;
+   for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){
+    const nx=x/(canvas.width-1),ny=y/(canvas.height-1),dx=nx-.5,dy=ny-.65;
+    const brush=.043*Math.sin(ny*29+nx*8)+.026*Math.sin(nx*38-ny*13)+.013*Math.sin(ny*71+nx*49);
+    const edge=Math.pow(Math.pow(Math.abs(dx)/rx,4)+Math.pow(Math.abs(dy)/ry,4),.25)+brush;
+    const feather=.2;const alpha=Math.max(0,Math.min(1,(1.06-edge)/feather));
+    const k=(y*canvas.width+x)*4;pixels.data[k]=pixels.data[k+1]=pixels.data[k+2]=255;pixels.data[k+3]=Math.round(alpha*alpha*(3-2*alpha)*255);
+   }
+   context.putImageData(pixels,0,0);const mask='url("'+canvas.toDataURL('image/png')+'")';photo.style.maskImage=photo.style.webkitMaskImage=mask;
   }
   requestAnimationFrame(frame);
  }
