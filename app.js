@@ -7,7 +7,7 @@ seal.addEventListener('click',()=>{
  if(opened)return;opened=true;music.volume=.65;
  music.play().catch(()=>document.addEventListener('pointerdown',()=>music.play().catch(()=>{}),{once:true}));
  seal.disabled=true;entrance.classList.add('opening');
- setTimeout(()=>{engagementIntro.hidden=false;engagementIntro.classList.add('revealing');},reducedMotion.matches?0:2600);
+ setTimeout(()=>{revealPhotoByZones();engagementIntro.hidden=false;engagementIntro.classList.add('revealing');},reducedMotion.matches?0:2600);
  setTimeout(()=>{entrance.classList.add('finished');continueInvitation.focus({preventScroll:true});},reducedMotion.matches?0:3100);
  setTimeout(()=>entrance.remove(),reducedMotion.matches?0:5100);
 });
@@ -62,3 +62,27 @@ try {
   if(Number.isInteger(data.spaces)&&data.spaces>=1&&data.spaces<=50&&typeof data.guestName==='string'&&data.guestName.length<=160&&typeof data.message==='string'&&data.message.length<=1500)applyInvitationData(data);
  }
 }catch(error){console.warn('El enlace personalizado no es válido; se muestra la invitación general.');}
+
+
+// Soft, overlapping openings reveal different areas at staggered times.
+function revealPhotoByZones(){
+ const photo=engagementIntro.querySelector('.engagement-frame img');
+ if(reducedMotion.matches)return;
+ const zones=[{x:38,y:51,delay:0},{x:73,y:66,delay:.13},{x:20,y:23,delay:.27},{x:80,y:18,delay:.4},{x:17,y:85,delay:.51},{x:83,y:87,delay:.61}];
+ const duration=6500;let start;
+ photo.style.maskImage=photo.style.webkitMaskImage='linear-gradient(transparent,transparent)';
+ photo.style.filter='blur(9px)';
+ function frame(now){
+  start??=now;const t=Math.min(1,(now-start)/duration);
+  if(t===1||reducedMotion.matches){photo.style.removeProperty('mask-image');photo.style.removeProperty('-webkit-mask-image');photo.style.removeProperty('filter');return;}
+  const bounds=photo.getBoundingClientRect(),reach=Math.hypot(bounds.width,bounds.height)*1.45;
+  const masks=zones.map(zone=>{
+   const p=Math.max(0,Math.min(1,(t-zone.delay)/(1-zone.delay))),eased=p*p*(3-2*p),radius=Math.max(.01,reach*eased);
+   return `radial-gradient(circle ${radius.toFixed(2)}px at ${zone.x}% ${zone.y}%,#000 0%,#000 38%,rgba(0,0,0,.65) 62%,transparent 100%)`;
+  }).join(',');
+  photo.style.maskImage=photo.style.webkitMaskImage=masks;
+  photo.style.filter=`blur(${(9*Math.pow(1-t,2)).toFixed(2)}px)`;
+  requestAnimationFrame(frame);
+ }
+ requestAnimationFrame(frame);
+}
