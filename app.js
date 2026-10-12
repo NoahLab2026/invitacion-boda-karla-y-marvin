@@ -1,5 +1,28 @@
 const entrance=document.getElementById('entrance'),main=document.getElementById('invitation'),seal=document.getElementById('seal'),music=document.getElementById('music');let opened=false;
 function fitVisibleScreen(){const height=Math.round(window.visualViewport?.height || window.innerHeight);document.documentElement.style.setProperty('--screen-height',height+'px');}
 fitVisibleScreen();window.addEventListener('resize',fitVisibleScreen);window.visualViewport?.addEventListener('resize',fitVisibleScreen);
-seal.addEventListener('click',()=>{if(opened)return;opened=true;music.volume=.65;music.play().catch(()=>{document.addEventListener('pointerdown',()=>music.play().catch(()=>{}),{once:true});});seal.disabled=true;entrance.classList.add('opening');main.hidden=false;setTimeout(()=>{entrance.classList.add('finished');document.body.classList.remove('closed');fitVisibleScreen();main.scrollTo({top:0,behavior:'instant'});window.scrollTo({top:0,behavior:'instant'});},1200);setTimeout(()=>entrance.remove(),2500);});
+const engagementIntro=document.getElementById('engagement-intro'),continueInvitation=document.getElementById('continue-invitation');
+seal.addEventListener('click',()=>{if(opened)return;opened=true;music.volume=.65;music.play().catch(()=>{document.addEventListener('pointerdown',()=>music.play().catch(()=>{}),{once:true});});seal.disabled=true;entrance.classList.add('opening');engagementIntro.hidden=false;engagementIntro.classList.add('revealing');setTimeout(()=>{entrance.classList.add('finished');continueInvitation.focus({preventScroll:true});},1200);setTimeout(()=>entrance.remove(),2500);});
+continueInvitation.addEventListener('click',()=>{continueInvitation.disabled=true;main.hidden=false;fitVisibleScreen();main.scrollTo({top:0,behavior:'instant'});engagementIntro.classList.add('leaving');setTimeout(()=>{engagementIntro.hidden=true;document.body.classList.remove('closed');document.querySelector('#home a').focus({preventScroll:true});},950);});
 const wedding=new Date('2026-12-19T16:30:00-06:00').getTime();function countdown(){let n=Math.max(0,Math.floor((wedding-Date.now())/1000));const values=[Math.floor(n/86400),Math.floor(n/3600)%24,Math.floor(n/60)%60,n%60];['days','hours','minutes','seconds'].forEach((id,i)=>document.getElementById(id).textContent=String(values[i]).padStart(2,'0'));if(n===0)document.getElementById('countdown-caption').textContent='¡Llegó nuestro gran día!';}countdown();setInterval(countdown,1000);
+
+
+const letter=document.getElementById('personal-letter'),letterTrigger=document.getElementById('open-letter');
+letterTrigger.addEventListener('click',()=>{if(!letter.open)letter.showModal();});
+document.getElementById('close-letter').addEventListener('click',()=>letter.close());
+letter.addEventListener('click',event=>{const r=letter.getBoundingClientRect();if(event.target===letter&&(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom))letter.close();});
+function applyInvitationData(data={}){
+ const spaces=Number.isInteger(Number(data.spaces))&&Number(data.spaces)>0?Number(data.spaces):1;
+ const label=spaces===1?'espacio':'espacios';
+ document.getElementById('reservation-copy').textContent=`Estamos muy felices de poder compartir este día contigo, por ser un evento íntimo y especial hemos reservado exclusivamente ${spaces} ${label} para ti.`;
+ document.getElementById('reserved-count').textContent=spaces;
+ document.getElementById('reserved-label').textContent=`${label} para ti`;
+ const guest=typeof data.guestName==='string'?data.guestName.trim():'';
+ document.getElementById('letter-title').textContent=guest?`Para ${guest}`:'Un mensaje para ti';
+ const message=typeof data.message==='string'&&data.message.trim()?data.message.trim():'Hay personas que hacen nuestra historia más bonita. Tú eres una de ellas y nos encantará tenerte cerca al comenzar esta nueva etapa.';
+ document.getElementById('letter-message').textContent=message;
+ const confirmation=`¡Hola! ${guest?`Soy ${guest}. `:''}Confirmo mi asistencia a la boda de Karla y Marvin. Tengo ${spaces} ${label} reservado${spaces===1?'':'s'}. 🤍`;
+ document.getElementById('confirm-link').href='https://wa.me/50373171809?text='+encodeURIComponent(confirmation);
+}
+applyInvitationData(window.invitationData);
+window.addEventListener('invitation:data',event=>applyInvitationData(event.detail));

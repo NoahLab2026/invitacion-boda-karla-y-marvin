@@ -21,3 +21,101 @@ main{position:fixed;inset:0 0 auto;height:var(--screen-height,100svh);overflow-y
 /* Each sheet occupies a whole visible screen, so neighboring artwork stays out of view. */
 .invitation-sheet,.opening-sheet{height:var(--screen-height,100svh);min-height:0;display:grid;place-items:center;padding:20px 0;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
 .invitation-sheet>.art-panel,.opening-sheet>.art-panel{margin:0;scroll-snap-align:none}
+
+
+@font-face{font-family:InvitationScript;src:url('script.ttf') format('truetype');font-display:swap}
+@font-face{font-family:InvitationSerif;src:url('serif.ttf') format('truetype');font-display:swap}
+.live-sheet{font-family:InvitationSerif,Georgia,serif;color:#505c43}
+.sheet-content{position:absolute;inset:0;text-align:center;padding:15cqw 9cqw 30cqw;display:flex;flex-direction:column;align-items:center}
+.eyebrow{margin:0 0 7cqw;font-size:3cqw;letter-spacing:.5cqw;text-transform:uppercase}
+.sheet-content h2{font-family:InvitationScript,cursive;font-size:12cqw;font-weight:400;line-height:1.16;margin:0 0 3cqw}
+.gold-rule{display:flex;align-items:center;justify-content:center;gap:2cqw;color:#b29554;font-size:4cqw;width:62%;margin:2cqw auto 5cqw}
+.gold-rule:before,.gold-rule:after{content:'';height:1px;background:#b29554;flex:1}
+.sheet-content h3{font-size:8cqw;font-weight:400;line-height:1.05;margin:1cqw 0 6cqw}
+.sheet-copy{font-size:4.3cqw;line-height:1.4;margin:3cqw 0;max-width:100%}
+.event-times{display:grid;grid-template-columns:1fr 1fr;width:100%;margin:0 0 4cqw}
+.event-times>div{display:flex;flex-direction:column;justify-content:end;align-items:center}
+.event-times>div+div{border-left:1px solid #b29554}
+.event-times span{font-size:3.7cqw;line-height:1.1;min-height:8.2cqw;display:flex;align-items:center}
+.event-times strong{font-size:11cqw;line-height:1.1;font-weight:400;margin-top:2cqw}
+.event-times small{font-size:3.4cqw}
+.elegant-button{display:inline-flex;align-items:center;justify-content:center;gap:2cqw;min-height:10cqw;padding:2cqw 5cqw;border:1px solid #c4ac71;box-shadow:inset 0 0 0 2px #f5f0dd40;background:#657052;border-radius:10cqw;color:#fff9ec;text-decoration:none;font-family:InvitationSerif,Georgia,serif;font-size:3.5cqw;letter-spacing:.3cqw;text-transform:uppercase;margin-top:5cqw;transition:transform .3s,box-shadow .3s}
+.elegant-button:hover{transform:translateY(-2px);box-shadow:0 6px 20px #505c4326}
+#gifts .sheet-content{padding-top:25cqw}
+#gifts h2{font-size:13cqw}
+.gift-envelope{position:relative;width:29cqw;height:20cqw;border:1px solid #b29554;background:linear-gradient(145deg,#fffaf0,#eee5cf);margin:8cqw 0 7cqw;box-shadow:0 5px 12px #b2955415;border-radius:1cqw}
+.gift-envelope:before{content:'';position:absolute;inset:0;background:linear-gradient(33deg,transparent 49.5%,#b29554 50%,transparent 50.5%),linear-gradient(-33deg,transparent 49.5%,#b29554 50%,transparent 50.5%)}
+.gift-envelope span{position:absolute;top:35%;left:40%;font-size:6cqw;color:#ac873f;background:#f8f2df;border-radius:50%;line-height:1.2}
+.script-note{font-family:InvitationScript,cursive;font-size:7cqw;margin-top:8cqw}
+#rsvp .sheet-content{padding-top:13cqw}
+#rsvp .eyebrow{margin-bottom:5cqw}
+#rsvp .gold-rule{margin-bottom:2cqw}
+#reservation-copy{font-size:4.5cqw;line-height:1.35;margin:2cqw 0 4cqw}
+.reserved-spaces{display:flex;flex-direction:column;margin:0 0 1cqw}
+.reserved-spaces strong{font-size:15cqw;color:#b29554;font-weight:400;line-height:1}
+.reserved-spaces span{font-size:4.7cqw}
+.letter-button{display:flex;flex-direction:column;align-items:center;gap:2cqw;border:0;padding:4cqw;background:transparent;color:#505c43;font-family:InvitationSerif,Georgia,serif;font-size:4cqw;cursor:pointer;margin-top:3cqw}
+.mini-envelope{display:grid;place-items:center;width:11cqw;height:7.5cqw;border:1px solid #b29554;color:#b29554;background:linear-gradient(32deg,transparent 49%,#b2955444 50%,transparent 51%),linear-gradient(-32deg,transparent 49%,#b2955444 50%,transparent 51%);font-size:3cqw;transition:transform .5s,filter .5s}
+.letter-button:hover .mini-envelope{transform:translateY(-3px) rotate(-4deg);filter:drop-shadow(0 4px 4px #b2955430)}
+#personal-letter{position:fixed;inset:0;width:min(92vw,470px);max-height:calc(var(--screen-height,100svh) - 30px);margin:auto;padding:0;overflow:auto;border:0;background:transparent;color:#505c43;perspective:1000px}
+#personal-letter::backdrop{background:#333c2ac7;backdrop-filter:blur(7px);animation:letterBackdrop .7s ease both}
+.letter-scene{position:relative;padding:48px 5px 15px;perspective:1000px}
+.close-letter{position:absolute;right:9px;top:5px;width:38px;height:38px;z-index:3;border:1px solid #c5ac71;border-radius:50%;background:#f8f5ed;color:#667153;font:26px Georgia;cursor:pointer}
+.personal-paper{position:relative;transform-origin:center bottom;background:#f8f5ed url('floral-paper-v3.webp') center bottom/100% auto no-repeat;border:1px solid #d1bd87;padding:38px 32px 110px;text-align:center;box-shadow:0 16px 40px #0003;font-family:InvitationSerif,Georgia,serif;animation:paperUnfold 1.25s cubic-bezier(.18,.7,.2,1) both}
+.personal-paper:before{content:'';position:absolute;inset:9px;border:1px solid #b2955450;pointer-events:none}
+.letter-kicker{font-size:12px;text-transform:uppercase;letter-spacing:2.5px;margin:0 0 22px}
+.personal-paper h2{font-family:InvitationScript,cursive;font-weight:400;font-size:46px;line-height:1.1;margin:0 0 15px}
+.personal-paper .gold-rule{font-size:20px;gap:12px;margin:20px auto}
+#letter-message{font-size:23px;line-height:1.55;white-space:pre-line;margin:25px 0 30px}
+.letter-signature{font-family:InvitationScript,cursive;font-size:38px;margin:0 0 10px}
+.letter-date{font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
+.personal-paper>*{animation:letterWords .8s ease both;animation-delay:.8s}
+#letter-message{animation-delay:1.05s}.letter-signature,.letter-date{animation-delay:1.3s}
+.letter-envelope{position:absolute;left:50%;top:0;transform:translateX(-50%);width:100px;height:66px;background:linear-gradient(145deg,#e6dcc0,#fff9ea);border:1px solid #b29554;display:grid;place-items:center;color:#b29554;font-size:25px;z-index:2;animation:envelopeLift 1.15s ease both}
+.letter-envelope:before{content:'';position:absolute;inset:0;clip-path:polygon(0 0,100% 0,50% 65%);background:#d9c99e;transform-origin:top;animation:flapOpen .8s ease both}
+.letter-envelope span{z-index:1;animation:sealFade .5s ease both}
+@keyframes paperUnfold{0%{opacity:0;transform:translateY(90px) rotateX(-65deg) scale(.78)}35%{opacity:1}100%{opacity:1;transform:translateY(0) rotateX(0) scale(1)}}
+@keyframes letterWords{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes flapOpen{to{transform:rotateX(180deg)}}
+@keyframes sealFade{to{opacity:0}}
+@keyframes envelopeLift{0%{opacity:1;transform:translate(-50%,100px) scale(1.3)}70%{opacity:1}100%{opacity:0;transform:translate(-50%,-15px) scale(.75)}}
+@keyframes letterBackdrop{from{background:#333c2a00;backdrop-filter:blur(0)}to{background:#333c2ac7;backdrop-filter:blur(7px)}}
+@media(max-width:380px){.personal-paper{padding:30px 24px 90px}.personal-paper h2{font-size:39px}#letter-message{font-size:21px}}
+@media(prefers-reduced-motion:reduce){#personal-letter::backdrop,.personal-paper,.personal-paper>*,.letter-envelope,.letter-envelope:before,.letter-envelope span{animation:none}.letter-envelope{display:none}.elegant-button,.mini-envelope{transition:none}}
+
+/* The engagement card is revealed before the formal invitation. */
+.engagement-intro{position:fixed;inset:0 0 auto;height:var(--screen-height,100svh);z-index:90;display:grid;place-items:center;overflow:hidden;background:#f8f5ed;perspective:1200px;padding:15px}
+.engagement-card{width:min(94vw,470px,calc(var(--screen-height,100svh)*.64));height:calc(var(--screen-height,100svh) - 30px);max-height:890px;background:#f8f5ed url('floral-paper-v3.webp') center bottom/100% 100% no-repeat;border:1px solid #c3aa70;box-shadow:0 18px 45px #6b634527;padding:20px 22px 24px;display:flex;flex-direction:column;align-items:center;gap:15px;transform-origin:center bottom;position:relative}
+.engagement-card:before{content:'';position:absolute;inset:6px;border:1px solid #b2955438;pointer-events:none}
+.engagement-frame{flex:1;min-height:0;width:100%;display:flex;justify-content:center}
+.engagement-frame img{display:block;max-width:100%;width:auto;height:100%;object-fit:contain;border:1px solid #b29554;box-shadow:0 0 0 5px #fff9ec}
+.engagement-caption{font-family:InvitationScript,cursive;font-size:clamp(27px,6vw,39px);line-height:1.12;text-align:center;margin:0;color:#566248}
+.intro-button{position:relative;border:1px solid #b29554;box-shadow:inset 0 0 0 2px #f5f0dd40;border-radius:30px;background:#657052;color:#fff9ec;padding:12px 18px;font-family:InvitationSerif,Georgia,serif;font-size:clamp(14px,3.6vw,19px);cursor:pointer}
+.revealing .engagement-card{animation:engagementReveal 1.9s cubic-bezier(.16,.7,.2,1) both;animation-delay:.5s}
+.revealing .engagement-caption{animation:letterWords .9s ease both;animation-delay:1.8s}
+.revealing .intro-button{animation:letterWords .9s ease both;animation-delay:2.1s}
+.leaving{pointer-events:none;animation:introFade .95s ease forwards}
+.leaving .engagement-card{animation:engagementLeave .95s cubic-bezier(.3,0,.5,1) forwards}
+@keyframes engagementReveal{0%{opacity:0;transform:translateY(38vh) rotateX(-18deg) scale(.9)}35%{opacity:1}100%{opacity:1;transform:translateY(0) rotateX(0) scale(1)}}
+@keyframes engagementLeave{to{opacity:0;transform:translateY(-70px) scale(1.03)}}
+@keyframes introFade{to{opacity:0}}
+.formal-cover .sheet-content{padding-top:24cqw}
+.cover-celebration{font:13cqw InvitationScript,cursive;margin:2cqw 0 5cqw}
+.formal-cover h1{font-family:InvitationScript,cursive;font-size:19cqw;font-weight:400;line-height:1.1;margin:4cqw 0 6cqw;display:flex;flex-direction:column;gap:2cqw}
+.formal-cover h1 span{font-size:9cqw;color:#b29554}
+.cover-full-names{font-size:3.3cqw;text-transform:uppercase;letter-spacing:.4cqw;margin:0 0 10cqw}
+.cover-date{font-size:5cqw;margin:0 0 3cqw}
+.cover-time{font-size:4cqw;margin:0 0 4cqw;letter-spacing:.4cqw}
+@media(max-height:600px){.engagement-card{padding:14px 15px;gap:9px}.engagement-caption{font-size:26px}.intro-button{padding:9px 13px;font-size:14px}}
+@media(prefers-reduced-motion:reduce){.revealing .engagement-card,.revealing .engagement-caption,.revealing .intro-button,.leaving,.leaving .engagement-card{animation:none}.leaving{opacity:0}}
+.formal-cover .sheet-content{padding:0}
+.formal-cover .sheet-content>*{position:absolute;left:8%;width:84%;margin:0}
+.formal-cover .eyebrow{top:9%}
+.formal-cover .cover-celebration{top:15%}
+.formal-cover .gold-rule{top:25%;left:23%;width:54%}
+.formal-cover h1{top:31%;font-size:16cqw;gap:1cqw}
+.formal-cover h1 span{font-size:8cqw}
+.formal-cover .cover-full-names{top:64%}
+.formal-cover .cover-date{top:72%}
+.formal-cover .cover-time{top:78%}
+.formal-cover .elegant-button{top:85%;left:23%;width:54%;font-size:3cqw}

@@ -3,10 +3,14 @@ VERSION:2.0
 PRODID:-//Karla y Marvin//Nuestra boda//ES
 BEGIN:VEVENT
 UID:boda-karla-marvin-20261219
-DTSTAMP:20261010T015500Z
+DTSTAMP:20261012T030000Z
 DTSTART:20261219T223000Z
 DTEND:20261220T044500Z
 SUMMARY:Boda de Karla Monge y Marvin Reyes
-DESCRIPTION:Ceremonia 4:45 p. m. Vestimenta formal. No olvides tu abrigo. Solo para adultos.
+DESCRIPTION:Ceremonia civil-religiosa 4:30 p. m. Recepción 6:00 p. m.\nAm
+ bas en el mismo lugar. Vestimenta formal. No olvides tu abrigo. Solo para
+  adultos.
+LOCATION:Cabañas Vistas del Volcán
+GEO:13.721517;-89.273716
 END:VEVENT
 END:VCALENDAR
