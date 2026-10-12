@@ -221,3 +221,6 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 @keyframes engagementPaperReveal{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
 @keyframes engagementPhotoReveal{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:blur(0)}}
 @media(prefers-reduced-motion:reduce){.revealing .engagement-card,.revealing .engagement-frame img{animation:none;filter:none}}
+/* Apply the fade to the photograph itself, without a letterbox area. */
+.engagement-frame{align-items:center}
+.engagement-frame img{height:auto;max-height:100%;width:auto;aspect-ratio:1062/1431}
