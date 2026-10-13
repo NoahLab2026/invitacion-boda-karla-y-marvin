@@ -1,4 +1,4 @@
-// Bindings: DB (D1 boda-karla-marvin), PANEL_KEY (Secret, >=32 characters).
+// Bindings: DB (D1 boda-karla-marvin), PANEL_KEY (Secret, >=12 characters).
 // No timers, scheduled handlers, polling or automatic retries.
 const ORIGIN = 'https://noahlab2026.github.io';
 const TOKEN = /^[a-f0-9]{64}$/;
@@ -22,7 +22,7 @@ function map(r){return {id:r.id,code:r.code,guestName:r.guest_name,spaces:r.spac
 function guest(r){return {guestName:r.guest_name,spaces:r.spaces,message:r.message,status:r.status,attending:r.attending,version:r.version};}
 function token(){return Array.from(crypto.getRandomValues(new Uint8Array(32)),n=>n.toString(16).padStart(2,'0')).join('');}
 async function authenticated(request,secret){
- if(typeof secret!=='string'||secret.length<32)throw new ApiError(503,'Configura el secreto PANEL_KEY de al menos 32 caracteres en Cloudflare.');
+ if(typeof secret!=='string'||secret.length<12)throw new ApiError(503,'Configura el secreto PANEL_KEY de al menos 12 caracteres en Cloudflare.');
  const header=request.headers.get('Authorization')||'';
  if(!header.startsWith('Bearer ')||header.length>1031)throw new ApiError(401,'Ingresa la clave del panel.');
  const hashes=await Promise.all([header.slice(7),secret].map(s=>crypto.subtle.digest('SHA-256',new TextEncoder().encode(s))));

@@ -9,7 +9,7 @@ Invitación floral · 19 de diciembre de 2026. La foto, el sobre, la música y l
 ### Activación en la cuenta del propietario
 
 1. En D1 → boda-karla-marvin → Console, ejecutar `indices-cloudflare.sql` una sola vez. Requiere la tabla `invitations` ya creada.
-2. En Workers & Pages → boda-karla-marvin-api → Settings → Variables and Secrets, crear **Secret** `PANEL_KEY` con una clave aleatoria de al menos 32 caracteres. Guardarla en el gestor de contraseñas. No ponerla en GitHub ni compartirla por chat. Compartirla únicamente con los administradores de confianza del panel.
+2. En Workers & Pages → boda-karla-marvin-api → Settings → Variables and Secrets, crear **Secret** `PANEL_KEY` con una contraseña de al menos 12 caracteres. Guardarla en el gestor de contraseñas. No ponerla en GitHub ni compartirla por chat. Compartirla únicamente con los administradores de confianza del panel.
 3. En Edit code, reemplazar todo worker.js por el contenido de `worker-cloudflare.mjs` y Deploy. El vínculo D1 `DB` se conserva. No es necesario contratar el plan Paid.
 4. Abrir `panel.html` e ingresar esa clave. Crear un invitado de prueba, abrir su enlace, confirmar asistencia y pulsar Actualizar respuestas en el panel. Archivar la invitación de prueba después.
 
