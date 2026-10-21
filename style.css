@@ -414,3 +414,12 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 #engagement-intro.revealing .intro-button{animation:wordsSoftDissolve 1.8s ease 6.6s both}
 @keyframes introCopyAfterPhoto{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){.revealing .intro-copy,#engagement-intro.revealing .intro-button{animation:none!important}}
+
+/* Confirmation deadline remains readable between the reserved places and CTA. */
+#rsvp .reserved-spaces{top:64%}
+#rsvp .reserved-spaces strong{font-size:9cqw}
+#rsvp .reserved-spaces span{font-size:3.4cqw}
+#rsvp .rsvp-deadline{top:77%;left:15%;width:70%;margin:0;font-size:3.1cqw;line-height:1.5}
+#rsvp .rsvp-deadline strong{font-weight:600;color:#626b52}
+#rsvp .elegant-button{top:85%}
+#rsvp .letter-button{top:94%}
