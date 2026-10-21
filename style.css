@@ -402,3 +402,15 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 .close-invitation{flex-shrink:0;cursor:pointer;font-family:InvitationSerif,Georgia,serif;margin-top:5cqw;gap:2cqw;min-height:11cqw}
 .close-invitation-note{font-size:3cqw;margin:2cqw 0 0}
 @media(prefers-reduced-motion:reduce){.revealing .photo-wave,.revealing .intro-word{animation:none!important}.title-reveal{opacity:1;filter:none;translate:none;transition:none}}
+
+
+/* Photo first, then the invitation words; photo reaches almost halfway down. */
+#engagement-intro .engagement-frame{height:48svh}
+.revealing .intro-copy{animation:introCopyAfterPhoto .1s step-end 5.1s both}
+.revealing .intro-word{animation-delay:5.3s}
+.revealing .intro-word:nth-child(4){animation-delay:5.65s}
+.revealing .intro-word:nth-child(5){animation-delay:6s}
+.revealing .intro-word:nth-child(n+6){animation-delay:6.3s}
+#engagement-intro.revealing .intro-button{animation:wordsSoftDissolve 1.8s ease 6.6s both}
+@keyframes introCopyAfterPhoto{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.revealing .intro-copy,#engagement-intro.revealing .intro-button{animation:none!important}}
