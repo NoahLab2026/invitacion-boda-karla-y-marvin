@@ -423,3 +423,6 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 #rsvp .rsvp-deadline strong{font-weight:600;color:#626b52}
 #rsvp .elegant-button{top:85%}
 #rsvp .letter-button{top:94%}
+
+/* Keep both people inside the taller photo on wide displays, without stretching. */
+.photo-wave image{height:max(100%,77.778cqw)}
