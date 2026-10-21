@@ -69,12 +69,13 @@ try {
 // The photograph fades in without redrawing pixels or blurring the people.
 function revealPhotoByZones(){
  engagementIntro.classList.add('photo-settled');
+ openingTimers.push(setTimeout(()=>engagementIntro.classList.add('copy-visible'),reducedMotion.matches?0:5100));
 }
 document.getElementById('close-invitation').addEventListener('click',()=>{
  openingTimers.splice(0).forEach(clearTimeout);
  document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
  music.pause();music.currentTime=0;opened=false;seal.disabled=false;
- engagementIntro.classList.remove('revealing','photo-settled');
+ engagementIntro.classList.remove('revealing','photo-settled','copy-visible');
  main.hidden=true;entrance.hidden=false;
  entrance.classList.remove('opening','finished');document.body.classList.add('closed');
  window.scrollTo({top:0,behavior:'instant'});seal.focus({preventScroll:true});
@@ -133,3 +134,4 @@ function fitPhotoWave(){
 }
 const rsvpSwipe=document.querySelector('#rsvp .section-swipe');
 if(rsvpSwipe){rsvpSwipe.style.left='24%';rsvpSwipe.style.bottom='3cqw';rsvpSwipe.style.whiteSpace='nowrap';}
+

@@ -426,3 +426,17 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 
 /* Keep both people inside the taller photo on wide displays, without stretching. */
 .photo-wave image{height:max(100%,77.778cqw)}
+
+
+/* Show the complete original photo; softly extend its colors across the width. */
+.photo-wave image{height:100%!important}
+/* Explicit state prevents a container animation from hiding every word forever. */
+#engagement-intro .intro-copy{animation:none!important;opacity:1;visibility:visible;transition:opacity .6s ease}
+#engagement-intro:not(.copy-visible) .intro-copy{opacity:0;visibility:hidden}
+#engagement-intro .intro-word,#engagement-intro.revealing .intro-button{animation:none!important}
+#engagement-intro.copy-visible .intro-word{animation:wordsSoftDissolve 1.8s ease .1s both!important}
+#engagement-intro.copy-visible .intro-word:nth-child(4){animation-delay:.35s!important}
+#engagement-intro.copy-visible .intro-word:nth-child(5){animation-delay:.6s!important}
+#engagement-intro.copy-visible .intro-word:nth-child(n+6){animation-delay:.85s!important}
+#engagement-intro.copy-visible .intro-button{animation:wordsSoftDissolve 1.6s ease 1s both!important}
+@media(prefers-reduced-motion:reduce){#engagement-intro .intro-copy{transition:none}#engagement-intro.copy-visible .intro-word,#engagement-intro.copy-visible .intro-button{animation:none!important}}
