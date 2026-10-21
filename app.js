@@ -1,5 +1,5 @@
 const entrance=document.getElementById('entrance'),main=document.getElementById('invitation'),seal=document.getElementById('seal'),music=document.getElementById('music');let opened=false;const openingTimers=[];
-function fitVisibleScreen(){const height=Math.round(window.visualViewport?.height || window.innerHeight);document.documentElement.style.setProperty('--screen-height',height+'px');}
+function fitVisibleScreen(){const height=Math.round(window.visualViewport?.height || window.innerHeight);document.documentElement.style.setProperty('--screen-height',height+'px');fitPhotoWave();}
 fitVisibleScreen();window.addEventListener('resize',fitVisibleScreen);window.visualViewport?.addEventListener('resize',fitVisibleScreen);
 const engagementIntro=document.getElementById('engagement-intro'),continueInvitation=document.getElementById('continue-invitation');
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -121,3 +121,15 @@ const petalField=document.createElement('div');petalField.className='petal-field
  petalField.append(petal);
 });engagementIntro.append(petalField);
 
+
+// Anchor the feathered mask to the visible viewport, independently of the photo crop.
+function fitPhotoWave(){
+ const svg=document.querySelector('.photo-wave');if(!svg)return;
+ const r=svg.getBoundingClientRect();if(!r.width||!r.height)return;
+ const mask=svg.querySelector('mask'),path=mask.querySelector('path');
+ mask.setAttribute('maskUnits','userSpaceOnUse');mask.setAttribute('maskContentUnits','userSpaceOnUse');
+ mask.setAttribute('width',r.width);mask.setAttribute('height',r.height);
+ path.setAttribute('transform',`scale(${r.width} ${r.height})`);
+}
+const rsvpSwipe=document.querySelector('#rsvp .section-swipe');
+if(rsvpSwipe){rsvpSwipe.style.left='24%';rsvpSwipe.style.bottom='3cqw';rsvpSwipe.style.whiteSpace='nowrap';}
