@@ -1,21 +1,22 @@
-const entrance=document.getElementById('entrance'),main=document.getElementById('invitation'),seal=document.getElementById('seal'),music=document.getElementById('music');let opened=false;
+const entrance=document.getElementById('entrance'),main=document.getElementById('invitation'),seal=document.getElementById('seal'),music=document.getElementById('music');let opened=false;const openingTimers=[];
 function fitVisibleScreen(){const height=Math.round(window.visualViewport?.height || window.innerHeight);document.documentElement.style.setProperty('--screen-height',height+'px');}
 fitVisibleScreen();window.addEventListener('resize',fitVisibleScreen);window.visualViewport?.addEventListener('resize',fitVisibleScreen);
 const engagementIntro=document.getElementById('engagement-intro'),continueInvitation=document.getElementById('continue-invitation');
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+if(reducedMotion.matches)document.querySelectorAll('.photo-wave animate').forEach(animation=>animation.remove());
 seal.addEventListener('click',()=>{
  if(opened)return;opened=true;music.volume=.65;
  music.play().catch(()=>document.addEventListener('pointerdown',()=>music.play().catch(()=>{}),{once:true}));
- seal.disabled=true;entrance.classList.add('opening');
- setTimeout(()=>{
+ seal.disabled=true;entrance.hidden=false;entrance.classList.remove('finished');entrance.classList.add('opening');
+ openingTimers.push(setTimeout(()=>{
   main.hidden=false;fitVisibleScreen();document.body.classList.remove('closed');
   window.scrollTo({top:0,behavior:'instant'});engagementIntro.classList.add('revealing');
   revealPhotoByZones();entrance.classList.add('finished');animateScroll();
- },reducedMotion.matches?0:1900);
- setTimeout(()=>{entrance.remove();engagementIntro.setAttribute('tabindex','-1');engagementIntro.focus({preventScroll:true});},reducedMotion.matches?0:2900);
+ },reducedMotion.matches?0:1900));
+ openingTimers.push(setTimeout(()=>{entrance.hidden=true;engagementIntro.setAttribute('tabindex','-1');engagementIntro.focus({preventScroll:true});},reducedMotion.matches?0:2900));
 });
 continueInvitation.addEventListener('click',()=>{
- document.getElementById('home').scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
+ document.getElementById('story').scrollIntoView({behavior:reducedMotion.matches?'instant':'smooth',block:'start'});
 });
 const wedding=new Date('2026-12-19T16:45:00-06:00').getTime();function countdown(){let n=Math.max(0,Math.floor((wedding-Date.now())/1000));const values=[Math.floor(n/86400),Math.floor(n/3600)%24,Math.floor(n/60)%60,n%60];['days','hours','minutes','seconds'].forEach((id,i)=>document.getElementById(id).textContent=String(values[i]).padStart(2,'0'));if(n===0)document.getElementById('countdown-caption').textContent='¡Llegó nuestro gran día!';}countdown();setInterval(countdown,1000);
 
@@ -65,35 +66,19 @@ try {
 }catch(error){console.warn('El enlace personalizado no es válido; se muestra la invitación general.');}
 
 
-// A central watercolor opening expands outward like the reference video.
+// The photograph fades in without redrawing pixels or blurring the people.
 function revealPhotoByZones(){
- const photo=engagementIntro.querySelector('.engagement-frame img');
- if(reducedMotion.matches){engagementIntro.classList.add('photo-settled');return;}
- const canvas=document.createElement('canvas');canvas.width=180;canvas.height=243;
- const context=canvas.getContext('2d');if(!context)return;
- const pixels=context.createImageData(canvas.width,canvas.height);
- const duration=10000;let start,last=-100;
- photo.style.maskImage=photo.style.webkitMaskImage='linear-gradient(transparent,transparent)';
- photo.style.removeProperty('filter');
- function finish(){photo.style.removeProperty('mask-image');photo.style.removeProperty('-webkit-mask-image');setTimeout(()=>{if(!engagementIntro.hidden)engagementIntro.classList.add('photo-settled');},2200);}
- function frame(now){
-  start??=now;const t=Math.min(1,(now-start)/duration);
-  if(t===1||reducedMotion.matches){finish();return;}
-  if(now-last>70){
-   last=now;const p=t*t*(3-2*t),rx=.015+p*.93,ry=.025+p*.94;
-   for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){
-    const nx=x/(canvas.width-1),ny=y/(canvas.height-1),dx=nx-.5,dy=ny-.65;
-    const brush=.043*Math.sin(ny*29+nx*8)+.026*Math.sin(nx*38-ny*13)+.013*Math.sin(ny*71+nx*49);
-    const edge=Math.pow(Math.pow(Math.abs(dx)/rx,4)+Math.pow(Math.abs(dy)/ry,4),.25)+brush;
-    const feather=.2;const alpha=Math.max(0,Math.min(1,(1.06-edge)/feather));
-    const k=(y*canvas.width+x)*4;pixels.data[k]=pixels.data[k+1]=pixels.data[k+2]=255;pixels.data[k+3]=Math.round(alpha*alpha*(3-2*alpha)*255);
-   }
-   context.putImageData(pixels,0,0);const mask='url("'+canvas.toDataURL('image/png')+'")';photo.style.maskImage=photo.style.webkitMaskImage=mask;
-  }
-  requestAnimationFrame(frame);
- }
- requestAnimationFrame(frame);
+ engagementIntro.classList.add('photo-settled');
 }
+document.getElementById('close-invitation').addEventListener('click',()=>{
+ openingTimers.splice(0).forEach(clearTimeout);
+ document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
+ music.pause();music.currentTime=0;opened=false;seal.disabled=false;
+ engagementIntro.classList.remove('revealing','photo-settled');
+ main.hidden=true;entrance.hidden=false;
+ entrance.classList.remove('opening','finished');document.body.classList.add('closed');
+ window.scrollTo({top:0,behavior:'instant'});seal.focus({preventScroll:true});
+});
 
 // Each flower is a separate layer; movement follows natural page scrolling.
 const animatedPanels=[...main.querySelectorAll('.art-panel')];
@@ -119,6 +104,15 @@ window.addEventListener('scroll',()=>{if(!scrollTick){scrollTick=true;requestAni
 const cropDialog=document.getElementById('venue-croquis');
 document.getElementById('open-croquis').addEventListener('click',()=>cropDialog.showModal());document.getElementById('close-croquis').addEventListener('click',()=>cropDialog.close());
 cropDialog.addEventListener('click',event=>{if(event.target===cropDialog){const r=cropDialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)cropDialog.close();}});
+// Titles reveal once as they enter, leaving body copy steady and readable.
+if(!reducedMotion.matches&&'IntersectionObserver' in window){
+ const titles=new IntersectionObserver(entries=>entries.forEach(entry=>{
+  if(entry.isIntersecting){entry.target.classList.add('title-revealed');titles.unobserve(entry.target);}
+ }),{threshold:.3});
+ main.querySelectorAll('.scroll-title').forEach(title=>{
+  if(!engagementIntro.contains(title)){title.classList.add('title-reveal');titles.observe(title);}
+ });
+}
 // Floating leaves and petals remain in the clear side margins.
 const petalField=document.createElement('div');petalField.className='petal-field';petalField.setAttribute('aria-hidden','true');
 [4,9,91,96,2,98].forEach((x,index)=>{
@@ -126,3 +120,4 @@ const petalField=document.createElement('div');petalField.className='petal-field
  petal.style.cssText=`--petal-x:${x}%;--fall-time:${14+index*1.7}s;--fall-delay:${-index*3.1}s;--sway:${index%2?-15:15}px;--petal-turn:${index%2?-240:260}deg`;
  petalField.append(petal);
 });engagementIntro.append(petalField);
+

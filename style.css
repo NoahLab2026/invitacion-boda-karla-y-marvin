@@ -366,3 +366,39 @@ main{position:relative;inset:auto;height:auto;overflow:visible;max-width:660px;b
 .envelope-insert>.flower-corner{width:24%;height:45%}
 .envelope-insert>.flower-corner.top-left:before{background-size:150% auto}
 .envelope-insert>.flower-corner.bottom-right:before{background-size:126% auto}
+
+
+/* Approved full-width photo: soft dissolve, feathered living wave, original roses. */
+#engagement-intro{aspect-ratio:auto;height:auto;min-height:0}
+#engagement-intro .engagement-card{display:block;position:relative;height:auto;padding:0;gap:0;animation:none;background:transparent}
+#engagement-intro .engagement-frame{display:block;position:relative;width:100%;height:min(77.778cqw,44svh);margin:0;border:0;border-radius:0;overflow:hidden;transition:none;background:transparent}
+.photo-wave{display:block;width:100%;height:100%;overflow:visible}
+.revealing .photo-wave{animation:photoSoftDissolve 5s cubic-bezier(.35,0,.35,1) both}
+@keyframes photoSoftDissolve{from{opacity:0}to{opacity:1}}
+#engagement-intro .intro-copy{position:relative;padding:5cqw 12cqw 10cqw;text-align:center;isolation:isolate;outline:none}
+#engagement-intro .intro-copy>:not(.flower-corner){position:relative;z-index:2}
+#engagement-intro .opening-copy{max-width:100%;font-size:3.8cqw;line-height:1.6;margin:0 auto 5cqw}
+#engagement-intro .cover-celebration{font:9cqw InvitationScript,cursive;line-height:1.2;margin:2cqw 0}
+#engagement-intro .intro-names{font:13cqw InvitationScript,cursive;font-weight:400;max-width:none;width:100%;margin:1cqw 0 3cqw;line-height:1.3;text-align:center}
+#engagement-intro .intro-names .normal-amp{font:6.5cqw Georgia,serif;color:#b29554}
+#engagement-intro .cover-full-names{font-size:2.8cqw;letter-spacing:.22cqw;margin:0 0 2cqw}
+#engagement-intro .gold-rule{margin:3cqw auto;width:48%}
+#engagement-intro .cover-date{font-size:4.6cqw;margin:3cqw 0 2cqw}
+#engagement-intro .cover-time,#engagement-intro .intro-reception{font-size:3.5cqw;margin:1.5cqw 0;line-height:1.5}
+#engagement-intro .intro-venue{font-size:4.4cqw;line-height:1.5;margin:5cqw 0 3cqw}
+#engagement-intro .intro-venue span{font-size:3.4cqw}
+#engagement-intro .intro-button{display:inline-flex;align-items:center;gap:2cqw;font-size:3.2cqw;margin:3cqw auto 0;animation:none}
+#engagement-intro .intro-copy .flower-corner{width:24%;height:31%;top:auto;bottom:0;opacity:.9}
+#engagement-intro .intro-copy .flower-corner.top-left{left:-4%;rotate:180deg}
+#engagement-intro .intro-copy .flower-corner.bottom-right{right:-4%}
+.revealing .intro-word{animation:wordsSoftDissolve 2.4s cubic-bezier(.2,.65,.3,1) both;animation-delay:1s}
+.revealing .intro-word:nth-child(4){animation-delay:1.35s}
+.revealing .intro-word:nth-child(5){animation-delay:1.7s}
+.revealing .intro-word:nth-child(n+6){animation-delay:2s}
+@keyframes wordsSoftDissolve{from{opacity:0;filter:blur(4px);translate:0 9px}to{opacity:1;filter:blur(0);translate:0 0}}
+.title-reveal{opacity:0;filter:blur(4px);translate:0 8px;transition:opacity 1.8s ease,filter 1.8s ease,translate 1.8s ease}
+.title-reveal.title-revealed{opacity:1;filter:blur(0);translate:0 0}
+.closing-sheet .sheet-content{justify-content:center;padding-bottom:15cqw}
+.close-invitation{flex-shrink:0;cursor:pointer;font-family:InvitationSerif,Georgia,serif;margin-top:5cqw;gap:2cqw;min-height:11cqw}
+.close-invitation-note{font-size:3cqw;margin:2cqw 0 0}
+@media(prefers-reduced-motion:reduce){.revealing .photo-wave,.revealing .intro-word{animation:none!important}.title-reveal{opacity:1;filter:none;translate:none;transition:none}}
