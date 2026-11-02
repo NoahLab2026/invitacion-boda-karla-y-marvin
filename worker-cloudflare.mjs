@@ -50,10 +50,10 @@ export default {
   if(origin===ORIGIN)headers['Access-Control-Allow-Origin']=ORIGIN;
   const send=(data,status=200)=>new Response(JSON.stringify(data),{status,headers});
   if(origin && origin!==ORIGIN)return send({ok:false,message:'Origen no permitido.'},403);
-  if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...headers,'Access-Control-Allow-Methods':'GET,POST,PATCH,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type','Access-Control-Max-Age':'86400'}});
+  if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...headers,'Access-Control-Allow-Methods':'GET,POST,PATCH,DELETE,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type','Access-Control-Max-Age':'86400'}});
   try {
    const url=new URL(request.url),path=url.pathname;
-   if(path==='/'&&request.method==='GET')return send({ok:true,message:'API de Karla y Marvin disponible',version:2});
+   if(path==='/'&&request.method==='GET')return send({ok:true,message:'API de Karla y Marvin disponible',version:3});
    if(!env.DB)throw new ApiError(503,'Falta el vínculo DB.');
    if(path.startsWith('/admin/')){
     await authenticated(request,env.PANEL_KEY); // BEFORE any database read.
@@ -75,6 +75,12 @@ export default {
      return send({ok:true,invitations:results.flatMap(r=>r.results).map(map),skipped:results.filter(r=>!r.results.length).length});
     }
     const match=path.match(/^\/admin\/invitations\/([a-zA-Z0-9_-]{1,100})$/);
+    if(match&&request.method==='DELETE'){
+     const data=await body(request);check(Number.isInteger(data.version)&&data.version>=1,'Versión inválida.');
+     const deleted=await env.DB.prepare('DELETE FROM invitations WHERE id=? AND version=? RETURNING id').bind(match[1],data.version).first();
+     if(!deleted)throw new ApiError(409,'La invitación cambió o ya fue eliminada. Pulsa Actualizar respuestas antes de continuar.');
+     return send({ok:true,deletedId:deleted.id});
+    }
     if(match&&request.method==='PATCH'){
      const data=await body(request),r=record({...data,id:match[1]});check(Number.isInteger(data.version)&&data.version>=1,'Versión inválida.');
      const saved=await env.DB.prepare(`UPDATE invitations SET guest_name=?,spaces=?,phone=?,message=?,status=?,attending=?,archived=?,version=version+1,updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id=? AND version=? RETURNING *`)
@@ -103,3 +109,4 @@ export default {
   }catch(error){return send({ok:false,message:error instanceof ApiError?error.message:'No se pudo completar la operación. Intenta nuevamente de forma manual.'},error instanceof ApiError?error.status:503);}
  }
 };
+
