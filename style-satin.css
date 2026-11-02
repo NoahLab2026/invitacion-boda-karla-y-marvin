@@ -451,3 +451,14 @@ body,.entrance,main,.art-panel,.live-sheet,.invitation-sheet,.personal-paper,.en
 #engagement-intro .photo-backdrop{display:none}
 #engagement-intro .photo-original{height:100%!important}
 body,.entrance,main,.art-panel,.live-sheet,.invitation-sheet,.personal-paper,.envelope-insert{background-size:100% 100%;background-repeat:no-repeat}
+
+/* Keep the handwritten flourishes and the animated guest letter inside their sheet. */
+.sheet-content h2{line-height:1.4;padding:.16em .2em;flex-shrink:0;overflow:visible}
+#itinerary h2{line-height:1.35}
+.title-revealed{filter:none;will-change:auto}
+#rsvp h2{top:23%;line-height:1.35;padding:.14em .2em}
+#gifts h2{top:27%}
+#rsvp .rsvp-deadline{top:75%}
+#rsvp .elegant-button{top:82%;margin-top:0}
+#rsvp .letter-button{top:89%;margin-top:0;min-height:11cqw;height:11cqw;overflow:visible}
+#rsvp .section-swipe{left:5%!important;bottom:3cqw!important;width:auto}
