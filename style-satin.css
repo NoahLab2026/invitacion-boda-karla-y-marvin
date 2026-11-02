@@ -479,3 +479,20 @@ body,main,.invitation-sheet,.opening-sheet{background-image:none}
 
 /* Separate the personal letter from the attendance confirmation. */
 #rsvp .letter-button{left:72%;top:90%}
+
+/* Requested ordering preview: first composition ends at the gold heart. */
+#engagement-intro .intro-copy{padding-bottom:7cqw}
+#engagement-intro .intro-copy>.flower-corner{display:none}
+#croquis .sheet-content{padding:15cqw 10cqw 12cqw;justify-content:flex-start}
+#croquis h2{font-size:9.3cqw;margin:0 0 2cqw;line-height:1.4}
+.croquis-sheet-preview{display:block;flex-shrink:0;width:80cqw;height:97cqw;padding:0;margin:0;background:transparent;border:0;cursor:zoom-in}
+.croquis-sheet-preview img{display:block;width:100%;height:100%;object-fit:contain}
+#croquis .sheet-copy{font-size:3.2cqw;line-height:1.45;margin:3cqw 0 0}
+
+/* Approved C: slow floral expansion, original bouquets blended into the satin. */
+.flower-corner{mix-blend-mode:multiply;overflow:visible}
+.flower-corner:before{filter:url(#floral-edge-clean);mix-blend-mode:multiply;animation:floralBreathingC 8s ease-in-out infinite;transform-origin:0 0;mask-image:linear-gradient(135deg,#000 0%,#000 68%,transparent 97%)!important;-webkit-mask-image:linear-gradient(135deg,#000 0%,#000 68%,transparent 97%)!important}
+.flower-corner.bottom-right:before{animation-name:floralBreathingCBack;animation-delay:0s;transform-origin:100% 100%;mask-image:linear-gradient(315deg,#000 0%,#000 68%,transparent 97%)!important;-webkit-mask-image:linear-gradient(315deg,#000 0%,#000 68%,transparent 97%)!important}
+@keyframes floralBreathingC{0%,100%{transform:scale(1) rotate(-1deg)}50%{transform:scale(1.065) rotate(2.5deg)}}
+@keyframes floralBreathingCBack{0%,100%{transform:scale(1) rotate(1deg)}50%{transform:scale(1.065) rotate(-2.5deg)}}
+@media(prefers-reduced-motion:reduce){.flower-corner:before{animation:none!important;transform:none!important}}
