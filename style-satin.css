@@ -476,3 +476,6 @@ body,main,.invitation-sheet,.opening-sheet{background-image:none}
 .closing-sheet .cover-date{font-size:4cqw;margin:2cqw 0}
 .closing-sheet .close-invitation{margin-top:4cqw;min-height:11cqw;flex-shrink:0}
 .closing-sheet .close-invitation-note{margin:2cqw 0 0;font-size:3cqw}
+
+/* Separate the personal letter from the attendance confirmation. */
+#rsvp .letter-button{left:72%;top:90%}
