@@ -462,3 +462,17 @@ body,.entrance,main,.art-panel,.live-sheet,.invitation-sheet,.personal-paper,.en
 #rsvp .elegant-button{top:82%;margin-top:0}
 #rsvp .letter-button{top:89%;margin-top:0;min-height:11cqw;height:11cqw;overflow:visible}
 #rsvp .section-swipe{left:5%!important;bottom:3cqw!important;width:auto}
+
+/* Keep the satin attached to each sheet instead of stretching it behind the full document. */
+body,main,.invitation-sheet,.opening-sheet{background-image:none}
+.motion-ready .art-panel,.motion-ready .art-panel.is-visible{opacity:1;transform:none;transition:none}
+/* The left-aligned cue must not keep the centered cue's negative translation. */
+#rsvp .section-swipe{left:6%!important;translate:0 0;white-space:nowrap;padding:1cqw 2cqw;font-size:3cqw}
+/* Give the closing action a stable space inside the final sheet. */
+.closing-sheet .sheet-content{justify-content:center;padding:16cqw 12cqw 12cqw;gap:0}
+.closing-sheet h2{font-size:9.3cqw;line-height:1.4;margin:0 0 2cqw;padding:.16em .2em}
+.closing-sheet .gold-rule{margin:2cqw auto}
+.closing-sheet .closing-names{font-size:10cqw;line-height:1.3;margin:3cqw 0}
+.closing-sheet .cover-date{font-size:4cqw;margin:2cqw 0}
+.closing-sheet .close-invitation{margin-top:4cqw;min-height:11cqw;flex-shrink:0}
+.closing-sheet .close-invitation-note{margin:2cqw 0 0;font-size:3cqw}
