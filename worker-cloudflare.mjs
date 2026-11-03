@@ -18,7 +18,7 @@ function record(value){
  check(value.archived===undefined||typeof value.archived==='boolean','Archivo inválido.');
  return {id,guestName,message,spaces,status,attending,phone,archived:!!value.archived};
 }
-function map(r){return {id:r.id,code:r.code,guestName:r.guest_name,spaces:r.spaces,phone:r.phone,message:r.message,status:r.status,attending:r.attending,archived:!!r.archived,version:r.version,created:r.created_at,updated:r.updated_at};}
+function map(r){return {id:r.id,code:r.code,guestName:r.guest_name,spaces:r.spaces,phone:r.phone,message:r.message,status:r.status,attending:r.attending,archived:!!r.archived,sentAt:r.sent_at||'',version:r.version,created:r.created_at,updated:r.updated_at};}
 function guest(r){return {guestName:r.guest_name,spaces:r.spaces,message:r.message,status:r.status,attending:r.attending,version:r.version};}
 function token(){return Array.from(crypto.getRandomValues(new Uint8Array(32)),n=>n.toString(16).padStart(2,'0')).join('');}
 async function authenticated(request,secret){
@@ -53,14 +53,14 @@ export default {
   if(request.method==='OPTIONS')return new Response(null,{status:204,headers:{...headers,'Access-Control-Allow-Methods':'GET,POST,PATCH,DELETE,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type','Access-Control-Max-Age':'86400'}});
   try {
    const url=new URL(request.url),path=url.pathname;
-   if(path==='/'&&request.method==='GET')return send({ok:true,message:'API de Karla y Marvin disponible',version:3});
+   if(path==='/'&&request.method==='GET')return send({ok:true,message:'API de Karla y Marvin disponible',version:4});
    if(!env.DB)throw new ApiError(503,'Falta el vínculo DB.');
    if(path.startsWith('/admin/')){
     await authenticated(request,env.PANEL_KEY); // BEFORE any database read.
     if(path==='/admin/invitations'&&request.method==='GET'){
      const cursor=url.searchParams.get('after')||'';check(!cursor||ID.test(cursor),'Cursor inválido.');
      const {results}=await env.DB.prepare('SELECT * FROM invitations WHERE id > ? ORDER BY id LIMIT 251').bind(cursor).all();
-     return send({ok:true,invitations:results.slice(0,250).map(map),next:results.length>250?results[249].id:null});
+     return send({ok:true,deliveryTracking:true,invitations:results.slice(0,250).map(map),next:results.length>250?results[249].id:null});
     }
     if(path==='/admin/invitations'&&request.method==='POST'){
      const r=record(await body(request));let saved=await insert(env.DB,r,token()).first();
@@ -73,6 +73,13 @@ export default {
      const codes=data.invitations.map(r=>TOKEN.test(r.code||'')?r.code:token());
      const results=await env.DB.batch(rows.map((r,i)=>insert(env.DB,r,codes[i])));
      return send({ok:true,invitations:results.flatMap(r=>r.results).map(map),skipped:results.filter(r=>!r.results.length).length});
+    }
+    const delivery=path.match(/^\/admin\/invitations\/([a-zA-Z0-9_-]{1,100})\/delivery$/);
+    if(delivery&&request.method==='PATCH'){
+     const data=await body(request);check(typeof data.sent==='boolean','Estado de envío inválido.');check(Number.isInteger(data.version)&&data.version>=1,'Versión inválida.');
+     const saved=await env.DB.prepare(`UPDATE invitations SET sent_at=CASE WHEN ?=1 THEN strftime('%Y-%m-%dT%H:%M:%fZ','now') ELSE '' END,version=version+1,updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id=? AND version=? RETURNING *`).bind(data.sent?1:0,delivery[1],data.version).first();
+     if(!saved)throw new ApiError(409,'La invitación cambió. Pulsa Actualizar respuestas antes de marcarla.');
+     return send({ok:true,invitation:map(saved)});
     }
     const match=path.match(/^\/admin\/invitations\/([a-zA-Z0-9_-]{1,100})$/);
     if(match&&request.method==='DELETE'){
@@ -109,4 +116,3 @@ export default {
   }catch(error){return send({ok:false,message:error instanceof ApiError?error.message:'No se pudo completar la operación. Intenta nuevamente de forma manual.'},error instanceof ApiError?error.status:503);}
  }
 };
-
