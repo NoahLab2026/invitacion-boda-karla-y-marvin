@@ -35,7 +35,7 @@ async function save(next){
 }
 function encode(data){return btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(data)))).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');}
 function link(record){const url=new URL('./',location.href);url.searchParams.set('sobre','20261103');url.hash='invitado='+record.code;return url.href;}
-function whatsapp(record){const greeting=record.guestName?`Hola, ${record.guestName}. `:'';return 'https://wa.me/'+record.phone+'?text='+encodeURIComponent(`${greeting}Con el corazón lleno de amor queremos invitarte a nuestra boda. 🤍\nKarla & Marvin · 19 de diciembre de 2026\n\n${link(record)}`);}
+function whatsapp(record){const greeting=record.guestName?`Hola, ${record.guestName}. `:'';return 'https://wa.me/'+record.phone+'?text='+encodeURIComponent(`${greeting}Con el corazón lleno de amor queremos invitarte a nuestra boda.\nKarla & Marvin · 19 de diciembre de 2026\n\n${link(record)}`);}
 async function copy(record){try{await navigator.clipboard.writeText(link(record));notice('Enlace copiado.');}catch{showReady(record);$('ready-url').focus();$('ready-url').select();notice('Selecciona y copia el enlace que aparece arriba.');}}
 function makeRecord(data,index=0){return validateRecord({...data,id:crypto.randomUUID(),code:'',status:'pending',attending:0});}
 function showReady(r){$('ready').querySelector('h3').textContent=`Enlace listo · ${r.spaces} ${r.spaces===1?'espacio':'espacios'}`;$('ready').querySelector('p').textContent=r.guestName?`Preparado para ${r.guestName}.`:'Preparado para compartir una invitación general.';$('ready-actions').hidden=false;$('ready-url').value=link(r);$('share-ready').href=whatsapp(r);$('open-ready').href=link(r);$('copy-ready').onclick=()=>copy(r);}
